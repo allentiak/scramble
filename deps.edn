@@ -8,10 +8,5 @@
                 {:git/tag "v0.5.0" :git/sha "b3fd0d2"}}
    :main-opts ["-m" "cognitect.test-runner"
                "-d" "test"]
-   :exec-fn cognitect.test-runner.api/test}}
-  :jar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.2"}}
-        :main-opts ["-m" "hf.depstar.jar" "readme.jar"]}
-  :install {:extra-deps {deps-deploy {:mvn/version "0.0.9"}}
-            :main-opts ["-m" "deps-deploy.deps-deploy" "install" "readme.jar"]}
-  :deploy {:extra-deps {deps-deploy {:mvn/version "0.0.9"}}
-           :main-opts ["-m" "deps-deploy.deps-deploy" "deploy" "readme.jar"]}}
+   :exec-fn cognitect.test-runner.api/test}}}
+
