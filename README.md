@@ -1,4 +1,4 @@
-# clojure-challenges-boot
+# clojure-challenges
 
 FIXME: description
 
@@ -10,7 +10,7 @@ Download from http://example.com/FIXME.
 
 FIXME: explanation
 
-    $ java -jar target/clojure-challenges-boot-0.1.0-SNAPSHOT-standalone.jar [args]
+    $ java -jar target/clojure-challenges-0.1.0-SNAPSHOT-standalone.jar [args]
 
 ## Options
 
