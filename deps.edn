@@ -1,14 +1,14 @@
 {:paths ["src"]
- :deps {org.clojure/clojure {:mvn/version "1.10.1"}}
+ :deps {org.clojure/clojure {:mvn/version "1.10.3"}}
  :aliases
  {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/test.check {:mvn/version "1.0.0"}}}
+         :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}}}
   :runner
-  {:extra-deps {com.cognitect/test-runner
-                {:git/url "https://github.com/cognitect-labs/test-runner"
-                 :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
+  {:extra-deps {io.github.cognitect-labs/test-runner
+                              {:git/tag "v0.5.0" :git/sha "b3fd0d2"}}
    :main-opts ["-m" "cognitect.test-runner"
-               "-d" "test"]}
+               "-d" "test"]
+   :exec-fn cognitect.test-runner.api/test}}
   :jar {:extra-deps {seancorfield/depstar {:mvn/version "0.5.2"}}
         :main-opts ["-m" "hf.depstar.jar" "readme.jar"]}
   :install {:extra-deps {deps-deploy {:mvn/version "0.0.9"}}
