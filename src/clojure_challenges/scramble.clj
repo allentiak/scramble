@@ -6,9 +6,10 @@
   Worst possible case scenario comparison.
   Only considers lowercase a-z characters."
   [big-str small-str]
-  (if (nil? small-str) true
-      (if (not (str/includes? big-str (str (first small-str)))) false
-          (rearrangable? big-str (seq (rest small-str))))))
+  (cond
+    (nil? small-str) true
+    (not (str/includes? big-str (str (first small-str)))) false
+    :else (rearrangable? big-str (seq (rest small-str)))))
 
 (comment
   (rearrangable? "ab" "b"))
@@ -18,8 +19,15 @@
   Efficient version.
   Only considers lowercase a-z characters."
   [big-str small-str]
-  (if (or (= big-str nil) (= small-str nil)) false
-    (if (= big-str small-str) true
-      (if (< (count big-str) (count small-str)) false
-        (if (str/includes? big-str small-str) true
-          (rearrangable? big-str small-str))))))
+  (cond
+    (or (nil? big-str)
+        (nil? small-str)
+        (< (count big-str) (count small-str)))
+    false
+
+    (or (= big-str small-str)
+        (str/includes? big-str small-str))
+    true
+
+    :else
+    (rearrangable? big-str small-str)))
