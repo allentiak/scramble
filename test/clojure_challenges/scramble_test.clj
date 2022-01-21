@@ -3,6 +3,13 @@
             [clojure.test :refer [deftest is testing]]))
 
 (deftest scramble-test
+
+  (testing "exceptional behaviors"
+    ;; nil strings make the result false
+    (is (= (scramble? nil nil) false))
+    (is (= (scramble? nil "") false))
+    (is (= (scramble? "" nil) false)))
+
   (testing "degenerate case"
     ;; the second string should always be smaller or equal than the second one
     (is (= (scramble? "ab" "abc") false))
