@@ -1,7 +1,7 @@
 (ns clojure-challenges.scramble
   (:require [clojure.string :as str]))
 
-(defn rearrangable?
+(defn- rearrangable?
   "returns true if a portion of big-str characters can be rearranged to match small-str, otherwise returns false.
   Worst possible case scenario comparison.
   Only considers lowercase a-z characters."
