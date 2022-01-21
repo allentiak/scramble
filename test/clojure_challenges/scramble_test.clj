@@ -24,3 +24,9 @@
 
   (testing "second element is blank"
     (is (= (scramble? "a" "") true)))
+
+  (testing "non-strict subset case"
+    (is (= (scramble? "abc" "ac") true))
+    (is (= (scramble? "abc" "ba") true))
+    (is (= (scramble? "abc" "ca") true))
+    (is (= (scramble? "abc" "cb") true))))
