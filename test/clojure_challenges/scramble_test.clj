@@ -12,4 +12,12 @@
     ;; the same string should always match, even if it's blank
     (is (= (scramble? "a" "a") true))
     (is (= (scramble? "abc" "abc") true))
-    (is (= (scramble? "" "") true))))
+    (is (= (scramble? "" "") true)))
+
+  (testing "strict subset case"
+    (is (= (scramble? "abc" "") true))
+    (is (= (scramble? "abc" "a") true))
+    (is (= (scramble? "abc" "b") true))
+    (is (= (scramble? "abc" "c") true))
+    (is (= (scramble? "abc" "ab") true))
+    (is (= (scramble? "abc" "bc") true)))
