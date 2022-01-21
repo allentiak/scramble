@@ -36,4 +36,9 @@
     (is (= (scramble? "abc" "ac") true))
     (is (= (scramble? "abc" "ba") true))
     (is (= (scramble? "abc" "ca") true))
-    (is (= (scramble? "abc" "cb") true))))
+    (is (= (scramble? "abc" "cb") true)))
+
+  (testing "provided cases"
+    (is (= (rearrangable? "rekqodlw" "world") true))
+    (is (= (rearrangable? "cedewaraaossoqqyt" "codewars") true))
+    (is (= (rearrangable? "katas" "steak") false))))
