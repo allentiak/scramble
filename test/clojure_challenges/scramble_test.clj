@@ -39,6 +39,6 @@
     (is (= (scramble? "abc" "cb") true)))
 
   (testing "provided cases"
-    (is (= (rearrangable? "rekqodlw" "world") true))
-    (is (= (rearrangable? "cedewaraaossoqqyt" "codewars") true))
-    (is (= (rearrangable? "katas" "steak") false))))
+    (is (= (scramble? "rekqodlw" "world") true))
+    (is (= (scramble? "cedewaraaossoqqyt" "codewars") true))
+    (is (= (scramble? "katas" "steak") false))))
