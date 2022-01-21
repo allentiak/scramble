@@ -21,3 +21,6 @@
     (is (= (scramble? "abc" "c") true))
     (is (= (scramble? "abc" "ab") true))
     (is (= (scramble? "abc" "bc") true)))
+
+  (testing "second element is blank"
+    (is (= (scramble? "a" "") true)))
