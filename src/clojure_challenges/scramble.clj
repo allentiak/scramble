@@ -2,32 +2,32 @@
   (:require [clojure.string :as str]))
 
 (defn- rearrangable?
-  "returns true if a portion of big-str characters can be rearranged to match small-str, otherwise returns false.
+  "returns true if a portion of letters can be rearranged to match word, otherwise returns false.
   Worst possible case scenario comparison.
   Only considers lowercase a-z characters."
-  [big-str small-str]
+  [letters word]
   (cond
-    (nil? small-str) true
-    (not (str/includes? big-str (str (first small-str)))) false
-    :else (rearrangable? big-str (seq (rest small-str)))))
+    (nil? word) true
+    (not (str/includes? letters (str (first word)))) false
+    :else (rearrangable? letters (seq (rest word)))))
 
 (comment
   (rearrangable? "ab" "b"))
 
 (defn scramble?
-  "returns true if a portion of big-str characters can be rearranged to match small-str, otherwise returns false.
+  "returns true if a portion of letters can be rearranged to match word, otherwise returns false.
   Efficient version.
   Only considers lowercase a-z characters."
-  [big-str small-str]
+  [letters word]
   (cond
-    (or (nil? big-str)
-        (nil? small-str)
-        (< (count big-str) (count small-str)))
+    (or (nil? letters)
+        (nil? word)
+        (< (count letters) (count word)))
     false
 
-    (or (= big-str small-str)
-        (str/includes? big-str small-str))
+    (or (= letters word)
+        (str/includes? letters word))
     true
 
     :else
-    (rearrangable? big-str small-str)))
+    (rearrangable? letters word)))
