@@ -1,5 +1,6 @@
 (ns clojure-challenges.scramble-web-server
-  (:require [compojure.core :refer [defroutes GET]]
+  (:require [clojure-challenges.scramble :as scramble]
+            [compojure.core :refer [defroutes GET POST]]
             [compojure.route :as route]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
@@ -10,6 +11,7 @@
 
 (defroutes web-server-routes
   (GET "/" [] (default-page))
+  (POST "/scramble" [letters word] (str (scramble/scramble? letters word)))
   (route/not-found "This isn't the page you're looking for."))
 
 (def web-server
