@@ -13,10 +13,12 @@
   (route/not-found "This isn't the page you're looking for."))
 
 (def web-server
-  (wrap-defaults web-server-routes api-defaults))
+  (-> web-server-routes
+      (wrap-defaults api-defaults)))
 
 (def dev-web-server
-  (wrap-reload #'web-server))
+  (-> #'web-server
+      (wrap-reload)))
 
 ;; it won't work unless I use the dash
 (defn -main [port]
