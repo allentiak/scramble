@@ -3,8 +3,11 @@
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
 
+(defn default-page []
+  "Just a RESTful interface for 'scramble?'")
+
 (defroutes web-server-routes
-  (GET "/" [] "It works!")
+  (GET "/" [] (default-page))
   (route/not-found "This isn't the page you're looking for."))
 
 (def web-server
