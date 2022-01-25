@@ -1,5 +1,8 @@
 {:paths ["src"]
- :deps {org.clojure/clojure {:mvn/version "1.10.3"}}
+ :deps {org.clojure/clojure {:mvn/version "1.10.3"}
+        compojure/compojure {:mvn/version "1.6.2"}
+        ring/ring-defaults {:mvn/version "0.3.3"}
+        ring/ring-mock {:mvn/version "0.4.0"}}
  :aliases
  {:test {:extra-paths ["test"]
          :extra-deps {org.clojure/test.check {:mvn/version "1.1.1"}}}
@@ -9,4 +12,3 @@
    :main-opts ["-m" "cognitect.test-runner"
                "-d" "test"]
    :exec-fn cognitect.test-runner.api/test}}}
-
