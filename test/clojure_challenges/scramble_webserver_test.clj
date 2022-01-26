@@ -1,21 +1,21 @@
-(ns clojure-challenges.scramble-web-server-test
+(ns clojure-challenges.scramble-webserver-test
   (:require [clojure.test :refer [deftest is testing]]
             [ring.mock.request :as mock]
             [clojure-challenges.scramble :refer [scramble?]]
-            [clojure-challenges.scramble-web-server :refer [default-page web-server]]))
+            [clojure-challenges.scramble-webserver :refer [default-page webserver]]))
 
-(deftest scramble-web-server-test
+(deftest scramble-webserver-test
   (testing "always valid route"
-    (let [response (web-server (mock/request :get "/"))]
+    (let [response (webserver (mock/request :get "/"))]
       (is (= (:status response) 200))
       (is (= (:body response) (default-page)))))
 
   (testing "invalid route"
-    (let [response (web-server (mock/request :get "/whatever"))]
+    (let [response (webserver (mock/request :get "/whatever"))]
       (is (= (:status response) 404))))
 
   (testing "valid route & valid request"
     (let [valid-request (mock/request :post "/scramble" {:letters "abc" :word "a"})
-          response (web-server valid-request)]
+          response (webserver valid-request)]
       (is (= (:status response) 200))
-      (is (= (:body response) (str (scramble? "abc" "a"))))))
+      (is (= (:body response) (str (scramble? "abc" "a")))))))

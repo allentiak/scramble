@@ -14,4 +14,4 @@
                "-d" "test"]
    :exec-fn cognitect.test-runner.api/test}
   :run
-  {:main-opts ["-m" "clojure-challenges.scramble-web-server"]}}}
+  {:main-opts ["-m" "clojure-challenges.scramble-webserver"]}}}
