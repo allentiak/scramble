@@ -14,7 +14,8 @@
     (let [response (web-server (mock/request :get "/whatever"))]
       (is (= (:status response) 404))))
 
-  (testing "valid route"
-    (let [response (web-server (mock/request :post "/scramble" {:letters "abc" :word "a"}))]
+  (testing "valid route & valid request"
+    (let [valid-request (mock/request :post "/scramble" {:letters "abc" :word "a"})
+          response (web-server valid-request)]
       (is (= (:status response) 200))
-      (is (= (:body response) (str (scramble? "abc" "a")))))))
+      (is (= (:body response) (str (scramble? "abc" "a"))))))
