@@ -10,9 +10,13 @@
 (defn default-page []
   "Just a RESTful interface for 'scramble?'")
 
+(defn- scramble-handler
+  [letters word]
+  (str (scramble/scramble? letters word)))
+
 (defroutes webserver-routes
   (GET "/" [] (default-page))
-  (POST "/scramble" [letters word] (str (scramble/scramble? letters word)))
+  (POST "/scramble" [letters word] (scramble-handler letters word))
   (route/not-found "This isn't the page you're looking for."))
 
 (def webserver
