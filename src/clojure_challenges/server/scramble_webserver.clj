@@ -1,4 +1,4 @@
-(ns clojure-challenges.scramble-webserver
+(ns clojure-challenges.server.scramble-webserver
   (:require
    [clojure-challenges.apis.scramble :as scramble]
    [compojure.core :refer [defroutes GET POST]]

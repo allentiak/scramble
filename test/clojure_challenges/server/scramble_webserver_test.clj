@@ -1,8 +1,8 @@
-(ns clojure-challenges.scramble-webserver-test
+(ns clojure-challenges.server.scramble-webserver-test
   (:require [clojure.test :refer [deftest is testing]]
             [ring.mock.request :as mock]
             [clojure-challenges.apis.scramble :refer [scramble?]]
-            [clojure-challenges.scramble-webserver :refer [default-page webserver]]))
+            [clojure-challenges.server.scramble-webserver :refer [default-page webserver]]))
 
 (deftest scramble-webserver-test
   (testing "always valid route"
