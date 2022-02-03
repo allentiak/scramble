@@ -1,7 +1,7 @@
 (ns clojure-challenges.scramble-webserver-test
   (:require [clojure.test :refer [deftest is testing]]
             [ring.mock.request :as mock]
-            [clojure-challenges.scramble :refer [scramble?]]
+            [clojure-challenges.apis.scramble :refer [scramble?]]
             [clojure-challenges.scramble-webserver :refer [default-page webserver]]))
 
 (deftest scramble-webserver-test

@@ -1,10 +1,11 @@
 (ns clojure-challenges.scramble-webserver
-  (:require [clojure-challenges.scramble :as scramble]
-            [compojure.core :refer [defroutes GET POST]]
-            [compojure.route :as route]
-            [ring.adapter.jetty :as jetty]
-            [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
-            [ring.middleware.reload :refer [wrap-reload]]))
+  (:require
+   [clojure-challenges.apis.scramble :as scramble]
+   [compojure.core :refer [defroutes GET POST]]
+   [compojure.route :as route]
+   [ring.adapter.jetty :as jetty]
+   [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
+   [ring.middleware.reload :refer [wrap-reload]]))
 
 (defn default-page []
   "Just a RESTful interface for 'scramble?'")

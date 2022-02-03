@@ -1,5 +1,5 @@
-(ns clojure-challenges.scramble-test
-  (:require [clojure-challenges.scramble :refer :all]
+(ns clojure-challenges.apis.scramble-test
+  (:require [clojure-challenges.apis.scramble :refer :all]
             [clojure.test :refer [deftest is testing]]))
 
 (deftest scramble-test

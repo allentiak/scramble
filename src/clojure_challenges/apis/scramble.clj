@@ -1,4 +1,4 @@
-(ns clojure-challenges.scramble
+(ns clojure-challenges.apis.scramble
   (:require [clojure.string :as str]))
 
 (defn- rearrangable?
