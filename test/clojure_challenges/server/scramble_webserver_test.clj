@@ -2,13 +2,14 @@
   (:require [clojure.test :refer [deftest is testing]]
             [ring.mock.request :as mock]
             [clojure-challenges.apis.scramble :refer [scramble?]]
-            [clojure-challenges.server.scramble-webserver :refer [default-page webserver]]))
+            [clojure-challenges.server.scramble-webserver :refer [default-page-handler webserver]]))
 
 (deftest scramble-webserver-test
   (testing "always valid route"
-    (let [response (webserver (mock/request :get "/"))]
+    (let [req (mock/request :get "/")
+          response (webserver req)]
       (is (= (:status response) 200))
-      (is (= (:body response) (default-page)))))
+      (is (= (:body response) (default-page-handler req)))))
 
   (testing "invalid route"
     (let [response (webserver (mock/request :get "/whatever"))]

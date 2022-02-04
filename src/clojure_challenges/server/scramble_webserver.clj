@@ -7,7 +7,7 @@
    [ring.middleware.defaults :refer [api-defaults wrap-defaults]]
    [ring.middleware.reload :refer [wrap-reload]]))
 
-(defn default-page []
+(defn default-page-handler [req]
   "Just a RESTful interface for 'scramble?'")
 
 (defn- scramble-handler
@@ -15,7 +15,7 @@
   (str (scramble/scramble? letters word)))
 
 (defroutes webserver-routes
-  (GET "/" [] (default-page))
+  (GET "/" req default-page-handler)
   (POST "/scramble" [letters word] (scramble-handler letters word))
   (route/not-found "This isn't the page you're looking for."))
 
