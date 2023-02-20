@@ -1,12 +1,17 @@
 (ns allentiak.scramble
-  (:gen-class))
+  (:gen-class)
+  (:require [clojure.tools.cli :refer [parse-opts]]
+            [clojure.string :as str]))
 
-(defn greet
-  "Callable entry point to the application."
-  [data]
-  (println (str "Hello, " (or (:name data) "World") "!")))
+(def cli-options
+  [["-l" "--letters LETTERS" "Letters"
+    :required "Must be provided"
+    :validate [#(not (str/blank?)) "Must not be empty"]]
+   ["-w" "--word WORD" "Word"
+    :required "Must be provided"
+    :validate [#(not (str/blank?)) "Must not be empty"]]])
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Callable entry point of the application."
   [& args]
-  (greet {:name (first args)}))
+  (parse-opts args cli-options))

@@ -21,11 +21,15 @@ Examples:
     (scramble? "cedewaraaossoqqyt" "codewars") ==> true
     (scramble? "katas" "steak") ==> false
 
-### Task 2: REST API
+### Task 2: CLI
+
+Add a CLI so the program can be invoked from the commandline.
+
+### Task 3: REST API
 
 Create a web service that accepts two strings in a request and applies function scramble? from previous task to them.
 
-### Task 3: UI
+### Task 4: UI
 
 Create a UI in ClojureScript with two inputs for strings and a scramble button. When the button is fired it should call the API from previous task and display a result.
 Notes
@@ -39,16 +43,6 @@ Download from https://github.com/allentiak/FIXME
 ## Usage
 
 FIXME: explanation
-
-Run the project directly, via `:exec-fn`:
-
-    $ clojure -X:run-x
-    Hello, Clojure!
-
-Run the project, overriding the name to be greeted:
-
-    $ clojure -X:run-x :name '"Someone"'
-    Hello, Someone!
 
 Run the project directly, via `:main-opts` (`-m allentiak.scramble`):
 
