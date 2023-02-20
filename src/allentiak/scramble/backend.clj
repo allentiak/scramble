@@ -1,5 +1,4 @@
 (ns allentiak.scramble.backend
-  (:gen-class)
   (:require
     [clojure.string :as str]))
 
@@ -35,14 +34,3 @@
 
     :else
     (rearrangable? letters word)))
-
-
-(defn greet
-  "Callable entry point to the application."
-  [data]
-  (println (str "Hello, " (or (:name data) "World") "!")))
-
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (greet {:name (first args)}))
