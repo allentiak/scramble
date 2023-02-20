@@ -1,4 +1,4 @@
-(ns allentiak.scramble
+(ns allentiak.scramble.backend
   (:gen-class)
   (:require
     [clojure.string :as str]))

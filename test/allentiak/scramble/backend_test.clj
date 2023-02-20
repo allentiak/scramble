@@ -1,6 +1,6 @@
-(ns allentiak.scramble-test
+(ns allentiak.scramble.backend-test
   (:require
-    [allentiak.scramble :refer [scramble?]]
+    [allentiak.scramble.backend :refer [scramble?]]
     [clojure.test :refer [deftest is testing]]))
 
 
