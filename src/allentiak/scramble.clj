@@ -1,7 +1,9 @@
 (ns allentiak.scramble
   (:gen-class)
-  (:require [clojure.tools.cli :refer [parse-opts]]
-            [clojure.string :as str]))
+  (:require
+   [allentiak.scramble.backend :as backend]
+   [clojure.string :as str]
+   [clojure.tools.cli :refer [parse-opts]]))
 
 (def cli-options
   [["-l" "--letters LETTERS" "Letters"
@@ -14,4 +16,4 @@
 (defn -main
   "Callable entry point of the application."
   [& args]
-  (parse-opts args cli-options))
+  (apply backend/scramble? (parse-opts args cli-options)))
