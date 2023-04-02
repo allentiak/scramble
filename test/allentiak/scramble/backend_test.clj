@@ -13,7 +13,7 @@
     (is (= (scramble? "" nil) false)))
 
   (testing "degenerate case"
-    ;; the second string should always be smaller or equal than the second one
+    ;; the first string should always be smaller or equal than the second one
     (is (= (scramble? "ab" "abc") false))
     (is (= (scramble? "" "a") false)))
 
@@ -39,6 +39,10 @@
     (is (= (scramble? "abc" "ba") true))
     (is (= (scramble? "abc" "ca") true))
     (is (= (scramble? "abc" "cb") true)))
+
+  (testing "repeated letters"
+    (is (= (scramble? "aaa" "a") true))
+    (is (= (scramble? "a" "aaa") false)))
 
   (testing "provided cases"
     (is (= (scramble? "rekqodlw" "world") true))
