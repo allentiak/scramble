@@ -1,10 +1,9 @@
 (ns allentiak.scramble
   (:gen-class)
   (:require
-   [clojure.string :as str]
-   [clojure.pprint :as pprint]
-   [clojure.tools.cli :refer [parse-opts]]
-   [allentiak.scramble.backend :as backend]))
+    [allentiak.scramble.backend :as backend]
+    [clojure.string :as str]
+    [clojure.tools.cli :refer [parse-opts]]))
 
 (def cli-options
   [["-l" "--letters LETTERS" "Letters"
@@ -57,23 +56,11 @@
 (defn -main
   "Callable entry point of the application."
   [& args]
-  (let [{:keys [options exit-message ok?] :as full-map} (validate-args args)]
-    (println "***DEBUGGING - Start***")
-    (println "Parsed options:")
-    (pprint/pprint (parse-opts args cli-options))
-    (println "Full map:")
-    (pprint/pprint full-map)
-    (println "Args:")
-    (pprint/pprint args)
-    (println "***DEBUGGING - End***")
+  (let [{:keys [options exit-message ok?]} (validate-args args)]
     (if exit-message
-      (do
-        (println "Something went wrong...")
-        (exit (if ok? 0 1) exit-message))
-      (do
-        (println "Everything went fine!")
-        (println
-         (backend/scramble? (:letters options) (:word options)))))))
+      (exit (if ok? 0 1) exit-message)
+      (println
+       (backend/scramble? (:letters options) (:word options))))))
 
 (comment
   (-main "-l ab -w ab"))
