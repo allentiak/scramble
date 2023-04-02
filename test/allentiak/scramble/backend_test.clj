@@ -1,50 +1,49 @@
 (ns allentiak.scramble.backend-test
   (:require
-    [allentiak.scramble.backend :refer [scramble?]]
-    [clojure.test :refer [deftest is testing]]))
-
+   [allentiak.scramble.backend :refer [scramble?]]
+   [clojure.test :refer [deftest is testing]]))
 
 (deftest scramble-test
 
   (testing "exceptional behaviors"
     ;; nil strings make the result false
-    (is (= (scramble? nil nil) false))
-    (is (= (scramble? nil "") false))
-    (is (= (scramble? "" nil) false)))
+    (is (= false (scramble? nil nil)))
+    (is (= false (scramble? nil "")))
+    (is (= false (scramble? "" nil))))
 
   (testing "degenerate case"
     ;; the first string should always be smaller or equal than the second one
-    (is (= (scramble? "ab" "abc") false))
-    (is (= (scramble? "" "a") false)))
+    (is (= false (scramble? "ab" "abc")))
+    (is (= false (scramble? "" "a"))))
 
   (testing "basic cases"
     ;; the same string should always match, even if it's blank
-    (is (= (scramble? "a" "a") true))
-    (is (= (scramble? "abc" "abc") true))
-    (is (= (scramble? "" "") true)))
+    (is (= true (scramble? "a" "a")))
+    (is (= true (scramble? "abc" "abc")))
+    (is (= true (scramble? "" ""))))
 
   (testing "strict subset case"
-    (is (= (scramble? "abc" "") true))
-    (is (= (scramble? "abc" "a") true))
-    (is (= (scramble? "abc" "b") true))
-    (is (= (scramble? "abc" "c") true))
-    (is (= (scramble? "abc" "ab") true))
-    (is (= (scramble? "abc" "bc") true)))
+    (is (= true (scramble? "abc" "")))
+    (is (= true (scramble? "abc" "a")))
+    (is (= true (scramble? "abc" "b")))
+    (is (= true (scramble? "abc" "c")))
+    (is (= true (scramble? "abc" "ab")))
+    (is (= true (scramble? "abc" "bc"))))
 
   (testing "second element is blank"
-    (is (= (scramble? "a" "") true)))
+    (is (= true (scramble? "a" ""))))
 
   (testing "non-strict subset case"
-    (is (= (scramble? "abc" "ac") true))
-    (is (= (scramble? "abc" "ba") true))
-    (is (= (scramble? "abc" "ca") true))
-    (is (= (scramble? "abc" "cb") true)))
+    (is (= true (scramble? "abc" "ac")))
+    (is (= true (scramble? "abc" "ba")))
+    (is (= true (scramble? "abc" "ca")))
+    (is (= true (scramble? "abc" "cb"))))
 
   (testing "repeated letters"
-    (is (= (scramble? "aaa" "a") true))
-    (is (= (scramble? "a" "aaa") false)))
+    (is (= true (scramble? "aaa" "a")))
+    (is (= false (scramble? "a" "aaa"))))
 
   (testing "provided cases"
-    (is (= (scramble? "rekqodlw" "world") true))
-    (is (= (scramble? "cedewaraaossoqqyt" "codewars") true))
-    (is (= (scramble? "katas" "steak") false))))
+    (is (= true (scramble? "rekqodlw" "world")))
+    (is (= true (scramble? "cedewaraaossoqqyt" "codewars")))
+    (is (= false (scramble? "katas" "steak")))))
