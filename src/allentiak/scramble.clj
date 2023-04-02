@@ -10,7 +10,8 @@
   [["-l" "--letters LETTERS" "Letters"
     :validate [#(not (str/blank? %)) "Must not be empty"]]
    ["-w" "--word WORD" "Word"
-    :validate [#(not (str/blank? %)) "Must not be empty"]]])
+    :validate [#(not (str/blank? %)) "Must not be empty"]]
+   ["-h" "--help"]])
 
 (defn usage [options-summary]
   (->> ["This is scramble's CLI."
@@ -33,6 +34,22 @@
     (keys options)
     (= #{:letters :word} (set (keys options)))))
 
+(defn validate-args
+  "Validate command line arguments. Either return a map indicating the program
+  should exit (with an error message, and optional ok status), or a map
+  indicating the values for the options provided."
+  [args]
+  (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
+    (cond
+      (:help options)                   ; help => exit OK with usage summary
+      {:exit-message (usage summary) :ok? true}
+
+      errors                         ; errors => exit with description of errors
+      {:exit-message (error-msg errors)}
+
+      :else                 ; everything went fine => return the options' values
+      {:options options})))
+
 (defn exit [status msg]
   (println msg)
   (System/exit status))
@@ -40,14 +57,15 @@
 (defn -main
   "Callable entry point of the application."
   [& args]
-  (let [{:keys [options exit-message ok?] :as full-map} (parse-opts args cli-options)]
+  (let [{:keys [options exit-message ok?] :as full-map} (validate-args args)]
+    (println "***DEBUGGING - Start***")
     (println "Parsed options:")
     (pprint/pprint (parse-opts args cli-options))
     (println "Full map:")
     (pprint/pprint full-map)
     (println "Args:")
     (pprint/pprint args)
-    (println "End of last printing.")
+    (println "***DEBUGGING - End***")
     (if exit-message
       (do
         (println "Something went wrong...")
