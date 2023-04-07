@@ -1,4 +1,4 @@
-(ns allentiak.scramble
+(ns allentiak.scramble.cli
   (:gen-class)
   (:require
     [allentiak.scramble.backend :as backend]

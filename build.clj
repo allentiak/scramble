@@ -4,7 +4,7 @@
 
 (def lib 'net.clojars.allentiak/scramble)
 (def version "0.1.0-SNAPSHOT")
-(def main 'allentiak.scramble)
+(def main 'allentiak.scramble.cli)
 (def class-dir "target/classes")
 
 (defn test "Run all the tests." [opts]
