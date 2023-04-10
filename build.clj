@@ -1,6 +1,9 @@
 (ns build
   (:refer-clojure :exclude [test])
-  (:require [clojure.tools.build.api :as b]))
+  (:require
+    [clojure.java.shell :as shell]
+    [clojure.test :refer [deftest is testing]]
+    [clojure.tools.build.api :as b]))
 
 (def lib 'net.clojars.allentiak/scramble)
 (def version "0.1.0-SNAPSHOT")
@@ -35,5 +38,9 @@
     (println (str "\nCompiling " main "..."))
     (b/compile-clj opts)
     (println "\nBuilding JAR...")
-    (b/uber opts))
+    (b/uber opts)
+    (println "\nTesting CLI...")
+    (testing "CLI invocation"
+      (is (= "true\n" (:out (shell/sh "java" "-jar" (:uber-file opts) "--letters" "rekqodlw" "--word" "world"))))
+      (is (= "false\n" (:out (shell/sh "java" "-jar" (:uber-file opts) "--letters" "katas" "--word" "steak"))))))
   opts)
