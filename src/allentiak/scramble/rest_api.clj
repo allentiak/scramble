@@ -2,6 +2,7 @@
   (:require
     [allentiak.scramble.backend :as backend]
     [hiccup.page :as h]
+    [reitit.core :as r]
     [reitit.ring :as reitit-ring]))
 
 (defn landing-page
@@ -17,12 +18,15 @@
    :headers {"Content-Type" "text/html"}
    :body (landing-page)})
 
-(def plain-routes
+(defn routes []
   [["/" {:summary "Show a landing page"
          :get basic-response}]])
 
 (def webapp
   (reitit-ring/ring-handler
    (reitit-ring/router
-    plain-routes)
+    (routes))
    (reitit-ring/create-default-handler)))
+
+(def dev-router #(r/router (routes)))
+(def prod-router (constantly (r/router (routes))))
