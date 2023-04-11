@@ -60,8 +60,9 @@
     (if exit-message
       (exit (if ok? 0 1) exit-message)
       (do
-        (println (backend/scramble? (:letters options) (:word options)))
-        (backend/scramble? (:letters options) (:word :options))))))
+        (let [scramble? (backend/scramble? (:letters options) (:word options))]
+          (println scramble?)
+          scramble?)))))
 
 (comment
   (-main "-l ab -w ab"))
