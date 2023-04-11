@@ -7,43 +7,43 @@
 
   (testing "exceptional behaviors"
     ;; nil strings make the result false
-    (is (= false (scramble? nil nil)))
-    (is (= false (scramble? nil "")))
-    (is (= false (scramble? "" nil))))
+    (is (not (scramble? nil nil)))
+    (is (not (scramble? nil "")))
+    (is (not (scramble? "" nil))))
 
   (testing "degenerate case"
     ;; the first string should always be smaller or equal than the second one
-    (is (= false (scramble? "ab" "abc")))
-    (is (= false (scramble? "" "a"))))
+    (is (not (scramble? "ab" "abc")))
+    (is (not (scramble? "" "a"))))
 
   (testing "basic cases"
     ;; the same string should always match, even if it's blank
-    (is (= true (scramble? "a" "a")))
-    (is (= true (scramble? "abc" "abc")))
-    (is (= true (scramble? "" ""))))
+    (is (scramble? "a" "a"))
+    (is (scramble? "abc" "abc"))
+    (is (scramble? "" "")))
 
   (testing "strict subset case"
-    (is (= true (scramble? "abc" "")))
-    (is (= true (scramble? "abc" "a")))
-    (is (= true (scramble? "abc" "b")))
-    (is (= true (scramble? "abc" "c")))
-    (is (= true (scramble? "abc" "ab")))
-    (is (= true (scramble? "abc" "bc"))))
+    (is (scramble? "abc" ""))
+    (is (scramble? "abc" "a"))
+    (is (scramble? "abc" "b"))
+    (is (scramble? "abc" "c"))
+    (is (scramble? "abc" "ab"))
+    (is (scramble? "abc" "bc")))
 
   (testing "second element is blank"
-    (is (= true (scramble? "a" ""))))
+    (is (scramble? "a" "")))
 
   (testing "non-strict subset case"
-    (is (= true (scramble? "abc" "ac")))
-    (is (= true (scramble? "abc" "ba")))
-    (is (= true (scramble? "abc" "ca")))
-    (is (= true (scramble? "abc" "cb"))))
+    (is (scramble? "abc" "ac"))
+    (is (scramble? "abc" "ba"))
+    (is (scramble? "abc" "ca"))
+    (is (scramble? "abc" "cb")))
 
   (testing "repeated letters"
-    (is (= true (scramble? "aaa" "a")))
-    (is (= false (scramble? "a" "aaa"))))
+    (is (scramble? "aaa" "a"))
+    (is (not (scramble? "a" "aaa"))))
 
   (testing "provided cases"
-    (is (= true (scramble? "rekqodlw" "world")))
-    (is (= true (scramble? "cedewaraaossoqqyt" "codewars")))
-    (is (= false (scramble? "katas" "steak")))))
+    (is (scramble? "rekqodlw" "world"))
+    (is (scramble? "cedewaraaossoqqyt" "codewars"))
+    (is (not (scramble? "katas" "steak")))))
