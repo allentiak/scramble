@@ -4,7 +4,8 @@
   (:require
     [allentiak.scramble.backend :as backend]
     [allentiak.scramble.cli :as cli]
-    [clojure.test :refer [deftest is testing]]))
+    [clojure.test :refer [deftest testing]]
+    [expectations.clojure.test :refer [expect]]))
 
 (deftest main-test
   (testing "invoking -main"
@@ -15,21 +16,21 @@
       ;; each test case should expect a different value (respectively, true and false).
 
       (testing "side-effect only"
-        (is (= (backend/scramble? letters1 word1)
-               (read-string
-                 (with-out-str
-                   (cli/-main "--letters" letters1 "--word" word1)))))
-        (is (= (backend/scramble? letters2 word2)
-               (read-string
-                 (with-out-str
-                   (cli/-main "--letters" letters2 "--word" word2))))))
+        (expect (= (backend/scramble? letters1 word1)
+                   (read-string
+                    (with-out-str
+                      (cli/-main "--letters" letters1 "--word" word1)))))
+        (expect (= (backend/scramble? letters2 word2)
+                   (read-string
+                    (with-out-str
+                      (cli/-main "--letters" letters2 "--word" word2))))))
 
       (testing "return-value only"
-        (is (= (backend/scramble? letters1 word1)
-               (binding
-                [*out* (StringWriter.)]
-                (cli/-main "--letters" letters1 "--word" word1))))
-        (is (= (backend/scramble? letters2 word2)
-               (binding
-                [*out* (StringWriter.)]
-                (cli/-main "--letters" letters2 "--word" word2))))))))
+        (expect (= (backend/scramble? letters1 word1)
+                   (binding
+                    [*out* (StringWriter.)]
+                    (cli/-main "--letters" letters1 "--word" word1))))
+        (expect (= (backend/scramble? letters2 word2)
+                   (binding
+                    [*out* (StringWriter.)]
+                    (cli/-main "--letters" letters2 "--word" word2))))))))
