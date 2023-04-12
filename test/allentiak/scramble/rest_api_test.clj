@@ -1,7 +1,8 @@
 (ns allentiak.scramble.rest-api-test
   (:require
     [allentiak.scramble.rest-api :refer [webapp landing-page]]
-    [clojure.test :refer [deftest is testing]]
+    [clojure.test :refer [deftest testing]]
+    [expectations.clojure.test :refer [expect]]
     [ring.mock.request :as mock]
     [ring.util.codec :refer [form-encode]]))
 
@@ -9,12 +10,12 @@
   (testing "always valid route"
     (let [req (mock/request :get "/")
           response (webapp req)]
-      (is (= 200 (:status response)))
-      (is (= (landing-page) (:body response)))))
+      (expect (= 200 (:status response)))
+      (expect (= (landing-page) (:body response)))))
   (testing "invalid route"
     (let [req (mock/request :get "/whatever")
           response (webapp req)]
-      (is (= 404 (:status response))))))
+      (expect (= 404 (:status response))))))
 
 (def ^:private mocked-post-request
   (-> (mock/request :post "/scramble")
@@ -24,15 +25,15 @@
   (testing "well-formed POST request with valid params"
     (let [response (webapp (-> mocked-post-request
                                (mock/body (form-encode {:letters "abc" :word "abc"}))))]
-      (is (= 200 (:status response)))))
+      (expect (= 200 (:status response)))))
   (testing "parameterless POST request"
     (let [response (webapp (-> mocked-post-request
                                (mock/body (form-encode {}))))]
-      (is (= 400 (:status response)))))
+      (expect (= 400 (:status response)))))
   (testing "well-formed POST request with invalid params"
     (let [response (webapp (-> mocked-post-request
                                (mock/body (form-encode {:letters "" :word "  "}))))]
-      (is (= 422 (:status response))))))
+      (expect (= 422 (:status response))))))
 
 ;; (run-tests)
 
