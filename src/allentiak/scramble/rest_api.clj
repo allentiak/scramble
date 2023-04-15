@@ -14,7 +14,7 @@
     [:body "Server running..."]))
 
 
-(defn basic-response
+(defn landing-page-handler
   [req]
   {:status 200
    :headers {"Content-Type" "text/html"}
@@ -24,7 +24,7 @@
 (defn routes
   []
   [["/" {:summary "Show a landing page"
-         :get basic-response}]])
+         :get landing-page-handler}]])
 
 
 (def webapp
