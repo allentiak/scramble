@@ -13,6 +13,7 @@
     (not (str/includes? letters (str (first word)))) false
     :else (rearrangable? letters (seq (rest word)))))
 
+
 (comment
   (rearrangable? "ab" "b"))
 

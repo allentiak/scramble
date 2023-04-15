@@ -5,12 +5,14 @@
     [reitit.core :as r]
     [reitit.ring :as reitit-ring]))
 
+
 (defn landing-page
   []
   (h/html5
-   [:head
-    [:title "Landing page"]]
-   [:body "Server running..."]))
+    [:head
+     [:title "Landing page"]]
+    [:body "Server running..."]))
+
 
 (defn basic-response
   [req]
@@ -18,15 +20,19 @@
    :headers {"Content-Type" "text/html"}
    :body (landing-page)})
 
-(defn routes []
+
+(defn routes
+  []
   [["/" {:summary "Show a landing page"
          :get basic-response}]])
 
+
 (def webapp
   (reitit-ring/ring-handler
-   (reitit-ring/router
-    (routes))
-   (reitit-ring/create-default-handler)))
+    (reitit-ring/router
+      (routes))
+    (reitit-ring/create-default-handler)))
+
 
 (def dev-router #(r/router (routes)))
 (def prod-router (constantly (r/router (routes))))

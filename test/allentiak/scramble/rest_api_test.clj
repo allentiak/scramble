@@ -6,6 +6,7 @@
     [ring.mock.request :as mock]
     [ring.util.codec :refer [form-encode]]))
 
+
 (deftest webapp-smoke-test
   (testing "always valid route"
     (let [req (mock/request :get "/")
@@ -17,9 +18,11 @@
           response (webapp req)]
       (expect (= 404 (:status response))))))
 
+
 (def ^:private mocked-post-request
   (-> (mock/request :post "/scramble")
       (mock/content-type "application/x-www-form-urlencoded")))
+
 
 (deftest endpoint-test
   (testing "well-formed POST request with valid params"
@@ -34,6 +37,7 @@
     (let [response (webapp (-> mocked-post-request
                                (mock/body (form-encode {:letters "" :word "  "}))))]
       (expect (= 422 (:status response))))))
+
 
 ;; (run-tests)
 

@@ -4,6 +4,7 @@
     [clojure.test :refer [deftest testing]]
     [expectations.clojure.test :refer [expect]]))
 
+
 (deftest scramble-test
 
   (testing "exceptional behaviors"

@@ -5,6 +5,7 @@
     [clojure.string :as str]
     [clojure.tools.cli :refer [parse-opts]]))
 
+
 (def cli-options
   [["-l" "--letters LETTERS" "Letters"
     :validate [#(not (str/blank? %)) "Must not be empty"]]
@@ -12,7 +13,9 @@
     :validate [#(not (str/blank? %)) "Must not be empty"]]
    ["-h" "--help"]])
 
-(defn usage [options-summary]
+
+(defn usage
+  [options-summary]
   (->> ["This is scramble's CLI."
         ""
         "Usage: scramble [options]"
@@ -23,15 +26,19 @@
         "Please refer to the manual page for more information."]
        (str/join \newline)))
 
-(defn error-msg [errors]
+
+(defn error-msg
+  [errors]
   (str "The following errors occurred while parsing your command:\n\n"
        (str/join \newline errors)))
+
 
 (comment
   (let [options {:letters "arb" :word "ab"}]
     (count options)
     (keys options)
     (= #{:letters :word} (set (keys options)))))
+
 
 (defn validate-args
   "Validate command line arguments. Either return a map indicating the program
@@ -49,9 +56,12 @@
       :else                 ; everything went fine => return the options' values
       {:options options})))
 
-(defn exit [status msg]
+
+(defn exit
+  [status msg]
   (println msg)
   (System/exit status))
+
 
 (defn -main
   "Callable entry point of the application."
@@ -63,6 +73,7 @@
         (let [scramble? (backend/scramble? (:letters options) (:word options))]
           (println scramble?)
           scramble?)))))
+
 
 (comment
   (-main "-l ab -w ab"))
