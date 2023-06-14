@@ -40,7 +40,7 @@ Please pay attention to tests, code readability and error cases.
 
 Download from https://github.com/allentiak/FIXME
 
-## Usage
+## Usage (verify this!)
 
 FIXME: explanation
 
@@ -73,6 +73,18 @@ from `build.clj`.
 Run that uberjar:
 
     $ java -jar target/net.clojars.allentiak/scramble-0.1.0-SNAPSHOT.jar
+
+## Usage
+
+Tests can be run from the terminal with:
+
+    % clojure -X:test:test/run
+
+(Without the first 'test', 'expectations' can not be found.)
+
+REPL can be run from the terminal with:
+
+    % clojure -M:test:repl/rebel-debug-refactor
 
 ## Options
 
