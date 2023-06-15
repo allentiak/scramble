@@ -6,8 +6,7 @@
     [reitit.ring :as reitit-ring]))
 
 
-(defn landing-page
-  []
+(defn landing-page []
   (h/html5
     [:head
      [:title "Landing page"]]
@@ -21,8 +20,7 @@
    :body (landing-page)})
 
 
-(defn routes
-  []
+(defn routes []
   [["/" {:summary "Show a landing page"
          :get landing-page-handler}]])
 
