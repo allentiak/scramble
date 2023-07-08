@@ -2,8 +2,8 @@
   (:require
     [allentiak.scramble.backend :as backend]
     [hiccup.page :as h]
-    [reitit.core :as r]
-    [reitit.ring :as reitit-ring]))
+    [reitit.ring :as reitit-ring]
+    [ring.adapter.jetty :as jetty]))
 
 
 (defn landing-page []
@@ -31,6 +31,9 @@
       (routes))
     (reitit-ring/create-default-handler)))
 
+(defn start []
+  (jetty/run-jetty #'webapp {:port 3000, :join? false})
+  (println "HTTP Server running on port 3000..."))
 
-(def dev-router #(r/router (routes)))
-(def prod-router (constantly (r/router (routes))))
+(comment
+  (start))
