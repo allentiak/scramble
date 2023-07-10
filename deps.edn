@@ -1,7 +1,6 @@
 {:paths ["src" "resources"]
  :deps  {org.clojure/clojure   {:mvn/version "1.11.1"}
          org.clojure/tools.cli {:mvn/version "1.0.214"}
-         hiccup/hiccup {:mvn/version "1.0.5"}
          metosin/reitit-core {:mvn/version "0.7.0-alpha5"}
          metosin/reitit-dev {:mvn/version "0.7.0-alpha5"}
          fi.metosin/reitit-openapi {:mvn/version "0.7.0-alpha5"}

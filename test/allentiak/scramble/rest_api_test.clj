@@ -1,6 +1,6 @@
 (ns allentiak.scramble.rest-api-test
   (:require
-    [allentiak.scramble.rest-api :refer [webapp landing-page]]
+    [allentiak.scramble.rest-api :refer [webapp]]
     [clojure.test :refer [deftest testing]]
     [expectations.clojure.test :refer [expect]]
     [ring.mock.request :as mock]
@@ -8,11 +8,15 @@
 
 
 (deftest webapp-smoke-test
-  (testing "always valid route"
+  (testing "redirects by default"
     (let [req (mock/request :get "/")
           response (webapp req)]
-      (expect (= 200 (:status response)))
-      (expect (= (landing-page) (:body response)))))
+      (expect (= 302 (:status response)))
+      (expect (= {"Location" "/index.html"} (:headers response)))))
+  (testing "default page exists"
+    (let [req (mock/request :get "/index.html")
+          response (webapp req)]
+      (expect (= 200 (:status response)))))
   (testing "invalid route"
     (let [req (mock/request :get "/whatever")
           response (webapp req)]

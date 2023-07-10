@@ -1,7 +1,6 @@
 (ns allentiak.scramble.rest-api
   (:require
     [allentiak.scramble.backend :as backend]
-    [hiccup.page :as h]
     [malli.util :as mu]
     [muuntaja.core :as m]
     [reitit.coercion.malli :as malli-coercion]
@@ -16,20 +15,6 @@
     [reitit.ring.middleware.muuntaja :as muuntaja]
     [reitit.ring.middleware.parameters :as parameters]
     [ring.adapter.jetty :as jetty]))
-
-
-(defn landing-page []
-  (h/html5
-    [:head
-     [:title "Landing page"]]
-    [:body "Server running..."]))
-
-
-(defn landing-page-handler
-  [req]
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body (landing-page)})
 
 
 (defn scramble-get-handler
@@ -57,8 +42,6 @@
                             :description "swagger docs with [malli](https://github.com/metosin/malli) and reitit-ring"
                             :version "0.0.1"}}
            :handler (swagger/create-swagger-handler)}}]
-   ["/" {:summary "Show a landing page"
-         :get landing-page-handler}]
    ["/scramble" {:summary "Call 'scramble?'"
                  :get scramble-get-handler
                  :post scramble-post-handler}]])
