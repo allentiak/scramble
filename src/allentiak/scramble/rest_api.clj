@@ -20,13 +20,17 @@
 (defn scramble-get-handler
   [{{{:keys [letters word]} :query} :parameters}]
   {:status 200
-   :body (backend/scramble? letters word)})
+   :body
+   {:scramble?
+    (backend/scramble? letters word)}})
 
 
 (defn scramble-post-handler
   [{{{:keys [letters word]} :body} :parameters}]
   {:status 200
-   :body (backend/scramble? letters word)})
+   :body
+   {:scramble?
+    (backend/scramble? letters word)}})
 
 
 (defn- parameters-malli-spec-map []
@@ -82,7 +86,7 @@
      {:summary "scramble with query parameters"
       :parameters (parameters-malli-spec-map)
       :responses {200
-                  {:query [:map [:scramble? boolean?]]}}
+                  {:body [:map [:scramble? boolean?]]}}
       :handler scramble-get-handler
       :openapi
       {:requestQuery
@@ -142,7 +146,7 @@
                            exception/exception-middleware
                            ;; decoding request body
                            muuntaja/format-request-middleware
-                           ;; coercing response bodys
+                           ;; coercing response body
                            coercion/coerce-response-middleware
                            ;; coercing request parameters
                            coercion/coerce-request-middleware
