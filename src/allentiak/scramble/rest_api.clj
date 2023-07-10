@@ -18,16 +18,50 @@
 
 
 (defn scramble-get-handler
-  [{{:strs [letters word]} :query-params :as req}]
+  [{{{:keys [letters word]} :query} :parameters}]
   {:status 200
    :body (backend/scramble? letters word)})
 
 
 (defn scramble-post-handler
-  [{{:keys [letters word]} :body-params :as req}]
+  [{{{:keys [letters word]} :body} :parameters}]
   {:status 200
    :body (backend/scramble? letters word)})
 
+
+(defn- parameters-malli-spec-map []
+  {:query
+   [:map
+    [:letters
+     {:title "letters parameter"
+      :description "description for letters parameter"
+      :json-schema/default "abc"}
+     string?]
+    [:word
+     {:title "word parameter"
+      :description "description for word parameter"
+      :json-schema/default "abc"}
+     string?]]})
+
+(defn- examples-request-json-content-map []
+  {:examples
+   {"scramble?-abc-a"
+    {:summary "abc-a"
+     :value {:letters "abc"
+             :word "a"}}
+    "scramble?-a-abc"
+    {:summary "a-abc"
+     :value {:letters "a"
+             :word "abc"}}}})
+
+(defn- examples-response-200-json-content-map []
+  {:examples
+   {"true"
+    {:summary "true"
+     :value {:scramble? true}}
+    "false"
+    {:summary "false"
+     :value {:scramble? false}}}})
 
 (defn routes []
   [["/openapi.json"
@@ -42,9 +76,40 @@
                             :description "swagger docs with [malli](https://github.com/metosin/malli) and reitit-ring"
                             :version "0.0.1"}}
            :handler (swagger/create-swagger-handler)}}]
-   ["/scramble" {:summary "Call 'scramble?'"
-                 :get scramble-get-handler
-                 :post scramble-post-handler}]])
+   ["/scramble"
+    {:tags ["scramble"]
+     :get
+     {:summary "scramble with query parameters"
+      :parameters (parameters-malli-spec-map)
+      :responses {200
+                  {:query [:map [:scramble? boolean?]]}}
+      :handler scramble-get-handler
+      :openapi
+      {:requestQuery
+       {:content
+        {"application/json"
+         (examples-request-json-content-map)}}
+       :responses
+       {200
+        {:content
+         {"application/json"
+          (examples-response-200-json-content-map)}}}}}
+     :post
+     {:summary "scramble with body parameters"
+      :parameters (parameters-malli-spec-map)
+      :responses {200
+                  {:body [:map [:scramble? boolean?]]}}
+      :handler scramble-post-handler
+      :openapi
+      {:requestBody
+       {:content
+        {"application/json"
+         (examples-request-json-content-map)}}
+       :responses
+       {200
+        {:content
+         {"application/json"
+          (examples-response-200-json-content-map)}}}}}}]])
 
 
 (def webapp
