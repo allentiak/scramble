@@ -5,6 +5,7 @@
          metosin/reitit-dev {:mvn/version "0.7.0-alpha5"}
          fi.metosin/reitit-openapi {:mvn/version "0.7.0-alpha5"}
          metosin/reitit-ring {:mvn/version "0.7.0-alpha5"}
+         com.fbeyer/reitit-ring-defaults {:mvn/version "0.1.0"}
          metosin/reitit-malli {:mvn/version "0.7.0-alpha5"}
          metosin/reitit-middleware {:mvn/version "0.7.0-alpha5"}
          metosin/reitit-swagger {:mvn/version "0.7.0-alpha5"}

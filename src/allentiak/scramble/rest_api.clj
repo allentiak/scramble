@@ -10,6 +10,9 @@
     [reitit.swagger-ui :as swagger-ui]
     [reitit.ring :as reitit-ring]
     [reitit.ring.coercion :as coercion]
+    [reitit.ring.middleware.defaults :as defaults]
+    [ring.middleware.defaults :as ring-defaults]
+    [ring.middleware.session.memory :as memory]
     [reitit.ring.middleware.exception :as exception]
     [reitit.ring.middleware.multipart :as multipart]
     [reitit.ring.middleware.muuntaja :as muuntaja]
@@ -120,6 +123,8 @@
        :responses
        (examples-response-200-json-content-map)}}}]])
 
+(defonce session-store
+  (memory/memory-store))
 
 (def webapp
   (reitit-ring/ring-handler
@@ -156,7 +161,17 @@
                            ;; coercing request parameters
                            coercion/coerce-request-middleware
                            ;; multipart
-                           multipart/multipart-middleware]}})
+                           multipart/multipart-middleware
+                           ;;defaults
+                           defaults/defaults-middleware]
+              :defaults (-> ring-defaults/site-defaults
+                            ;; Enable exception middleware.
+                            ;; You can also add custom handlers
+                            ;; in [:exception handlers] key
+                            ;; and they will be passed to create-exception-middleware.
+                            ;; (assoc :exception true)
+                            ;; Enable session store
+                            (assoc-in [:session :store] session-store))}})
 
     (reitit-ring/routes
       (swagger-ui/create-swagger-ui-handler
