@@ -33,19 +33,26 @@
     (backend/scramble? letters word)}})
 
 
-(defn- parameters-malli-spec-map []
+(defn- parameters-malli-schema []
+  [:map
+   [:letters
+    {:title "letters parameter"
+     :description "description for letters parameter"
+     :json-schema/default "abc"}
+    string?]
+   [:word
+    {:title "word parameter"
+     :description "description for word parameter"
+     :json-schema/default "abc"}
+    string?]])
+
+(defn- parameters-malli-schema-map--get []
   {:query
-   [:map
-    [:letters
-     {:title "letters parameter"
-      :description "description for letters parameter"
-      :json-schema/default "abc"}
-     string?]
-    [:word
-     {:title "word parameter"
-      :description "description for word parameter"
-      :json-schema/default "abc"}
-     string?]]})
+   (parameters-malli-schema)})
+
+(defn- parameters-malli-schema-map--post []
+  {:body
+   (parameters-malli-schema)})
 
 (defn- examples-request-json-content-map []
   {:examples
@@ -84,9 +91,9 @@
     {:tags ["scramble"]
      :get
      {:summary "scramble with query parameters"
-      :parameters (parameters-malli-spec-map)
       :responses {200
                   {:body [:map [:scramble? boolean?]]}}
+      :parameters (parameters-malli-schema-map--get)
       :handler scramble-get-handler
       :openapi
       {:requestQuery
@@ -100,9 +107,9 @@
           (examples-response-200-json-content-map)}}}}}
      :post
      {:summary "scramble with body parameters"
-      :parameters (parameters-malli-spec-map)
       :responses {200
                   {:body [:map [:scramble? boolean?]]}}
+      :parameters (parameters-malli-schema-map--post)
       :handler scramble-post-handler
       :openapi
       {:requestBody
