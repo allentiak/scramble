@@ -17,20 +17,19 @@
     [ring.adapter.jetty :as jetty]))
 
 
-(defn scramble-get-handler
-  [{{{:keys [letters word]} :query} :parameters}]
+(defn scramble-handler [letters word]
   {:status 200
    :body
    {:scramble?
     (backend/scramble? letters word)}})
 
+(defn scramble-get-handler
+  [{{{:keys [letters word]} :query} :parameters}]
+  (scramble-handler letters word))
 
 (defn scramble-post-handler
   [{{{:keys [letters word]} :body} :parameters}]
-  {:status 200
-   :body
-   {:scramble?
-    (backend/scramble? letters word)}})
+  (scramble-handler letters word))
 
 
 (defn- parameters-malli-schema []
@@ -66,13 +65,20 @@
              :word "abc"}}}})
 
 (defn- examples-response-200-json-content-map []
-  {:examples
-   {"true"
-    {:summary "true"
-     :value {:scramble? true}}
-    "false"
-    {:summary "false"
-     :value {:scramble? false}}}})
+  {200
+   {:content
+    {"application/json"
+     {:examples
+      {"true"
+       {:summary "true"
+        :value {:scramble? true}}
+       "false"
+       {:summary "false"
+        :value {:scramble? false}}}}}}})
+
+(defn- response-malli-schema-map []
+  {200
+   {:body [:map [:scramble? boolean?]]}})
 
 (defn routes []
   [["/openapi.json"
@@ -91,9 +97,8 @@
     {:tags ["scramble"]
      :get
      {:summary "scramble with query parameters"
-      :responses {200
-                  {:body [:map [:scramble? boolean?]]}}
       :parameters (parameters-malli-schema-map--get)
+      :responses (response-malli-schema-map)
       :handler scramble-get-handler
       :openapi
       {:requestQuery
@@ -101,15 +106,11 @@
         {"application/json"
          (examples-request-json-content-map)}}
        :responses
-       {200
-        {:content
-         {"application/json"
-          (examples-response-200-json-content-map)}}}}}
+       (examples-response-200-json-content-map)}}
      :post
      {:summary "scramble with body parameters"
-      :responses {200
-                  {:body [:map [:scramble? boolean?]]}}
       :parameters (parameters-malli-schema-map--post)
+      :responses (response-malli-schema-map)
       :handler scramble-post-handler
       :openapi
       {:requestBody
@@ -117,10 +118,7 @@
         {"application/json"
          (examples-request-json-content-map)}}
        :responses
-       {200
-        {:content
-         {"application/json"
-          (examples-response-200-json-content-map)}}}}}}]])
+       (examples-response-200-json-content-map)}}}]])
 
 
 (def webapp
