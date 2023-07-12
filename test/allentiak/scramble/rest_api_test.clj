@@ -48,7 +48,19 @@
                               (mock/request :get "/scramble")
                               (mock/query-string params-map2)))]
       (expect (= 400 (:status response1)
+                     (:status response2)))))
+  (testing "well-formed, semantically incorrect GET request"
+    (let [incorrect-letters {:letters "22" :word "abc"}
+          incorrect-word {:letters "abc" :word "222"}
+          response1 (webapp (->
+                              (mock/request :get "/scramble")
+                              (mock/query-string incorrect-letters)))
+          response2 (webapp (->
+                              (mock/request :get "/scramble")
+                              (mock/query-string incorrect-word)))]
+      (expect (= 422 (:status response1)
                      (:status response2))))))
+      ;; This one fails: I get 200 instead...
 
 (deftest post-endpoint-test
   (testing "well-formed POST request, with valid params"
@@ -76,4 +88,16 @@
                              (mock/request :post "/scramble")
                              (mock/json-body params-map2)))]
       (expect (= 400 (:status response1)
+                 (:status response2)))))
+  (testing "well-formed, semantically incorrect POST request"
+    (let [incorrect-letters {:letters "22" :word "abc"}
+          incorrect-word {:letters "abc" :word "222"}
+          response1 (webapp (->
+                             (mock/request :post "/scramble")
+                             (mock/json-body incorrect-letters)))
+          response2 (webapp (->
+                             (mock/request :post "/scramble")
+                             (mock/json-body incorrect-word)))]
+      (expect (= 422 (:status response1)
                  (:status response2))))))
+      ;; This one fails: I get 200 instead...
