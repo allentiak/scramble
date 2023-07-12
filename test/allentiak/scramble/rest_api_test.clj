@@ -37,7 +37,18 @@
     (let [response (webapp (->
                             (mock/request :get "/scramble")
                             (mock/query-string {})))]
-      (expect (= 400 (:status response))))))
+      (expect (= 400 (:status response)))))
+  (testing "malformed GET request, with only one param"
+    (let [params-map1 {:letters ""}
+          params-map2 {:word ""}
+          response1 (webapp (->
+                              (mock/request :get "/scramble")
+                              (mock/query-string params-map1)))
+          response2 (webapp (->
+                              (mock/request :get "/scramble")
+                              (mock/query-string params-map2)))]
+      (expect (= 400 (:status response1)
+                     (:status response2))))))
 
 (deftest post-endpoint-test
   (testing "well-formed POST request, with valid params"
@@ -54,4 +65,15 @@
     (let [response (webapp (->
                             (mock/request :post "/scramble")
                             (mock/json-body {})))]
-      (expect (= 400 (:status response))))))
+      (expect (= 400 (:status response)))))
+  (testing "malformed POST request, with only one param"
+    (let [params-map1 {:letters ""}
+          params-map2 {:word ""}
+          response1 (webapp (->
+                             (mock/request :post "/scramble")
+                             (mock/json-body params-map1)))
+          response2 (webapp (->
+                             (mock/request :post "/scramble")
+                             (mock/json-body params-map2)))]
+      (expect (= 400 (:status response1)
+                 (:status response2))))))
