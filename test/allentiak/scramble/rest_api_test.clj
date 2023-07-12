@@ -8,7 +8,7 @@
 
 
 (deftest webapp-smoke-test
-  (testing "redirects by default"
+  (testing "redirects to 'index.html' by default"
     (let [req (mock/request :get "/")
           response (webapp req)]
       (expect (= 302 (:status response)))
@@ -17,43 +17,41 @@
     (let [req (mock/request :get "/index.html")
           response (webapp req)]
       (expect (= 200 (:status response)))))
-  (testing "invalid route"
+  (testing "invalid routes are detected"
     (let [req (mock/request :get "/whatever")
           response (webapp req)]
       (expect (= 404 (:status response))))))
 
-
-(def ^:private mocked-post-request
-  (-> (mock/request :post "/scramble")
-      (mock/content-type "application/x-www-form-urlencoded")))
-
-
-(deftest endpoint-test
-  (testing "well-formed POST request with valid params"
-    (let [response (webapp (-> mocked-post-request
-                               (mock/body (form-encode {:letters "abc" :word "abc"}))))]
+(deftest get-endpoint-test
+  (testing "well-formed GET request, with valid params"
+    (let [response (webapp (->
+                            (mock/request :get "/scramble")
+                            (mock/query-string {:letters "abc" :word "abc"})))]
       (expect (= 200 (:status response)))))
-  (testing "parameterless POST request"
-    (let [response (webapp (-> mocked-post-request
-                               (mock/body (form-encode {}))))]
-      (expect (= 400 (:status response)))))
-  (testing "well-formed POST request with invalid params"
-    (let [response (webapp (-> mocked-post-request
-                               (mock/body (form-encode {:letters "" :word "  "}))))]
-      (expect (= 422 (:status response))))))
+  (testing "well-formed GET request, parameterless (yet valid)"
+    (let [response (webapp (->
+                            (mock/request :get "/scramble")
+                            (mock/query-string {:letters "" :word ""})))]
+      (expect (= 200 (:status response)))))
+  (testing "malformed GET request, without params"
+    (let [response (webapp (->
+                            (mock/request :get "/scramble")
+                            (mock/query-string {})))]
+      (expect (= 400 (:status response))))))
 
-
-;; (run-tests)
-
-;; Testing on cmd via curl
-;; 1 - Well formed request with valid data
-;; curl -i -H "Accept:application/transit+json" -X POST localhost:3000/scramblie -F "letters=abc" -F "word=abc"
-;; 200
-
-;; 2 - Well formed request with invalid data (empty strings)
-;; curl -i -H "Accept:application/transit+json" -X POST localhost:3000/scramblie -F "letters=" -F "word="
-;; 422
-
-;; 2 - Invalid request, params not set
-;; curl -i -H "Accept:application/transit+json" -X POST localhost:3000/scramblie
-;; 400
+(deftest post-endpoint-test
+  (testing "well-formed POST request, with valid params"
+    (let [response (webapp (->
+                            (mock/request :post "/scramble")
+                            (mock/json-body {:letters "abc" :word "abc"})))]
+      (expect (= 200 (:status response)))))
+  (testing "well-formed POST request, parameterless (yet valid)"
+    (let [response (webapp (->
+                            (mock/request :post "/scramble")
+                            (mock/json-body {:letters "" :word ""})))]
+      (expect (= 200 (:status response)))))
+  (testing "malformed POST request, without params"
+    (let [response (webapp (->
+                            (mock/request :post "/scramble")
+                            (mock/json-body {})))]
+      (expect (= 400 (:status response))))))
