@@ -58,9 +58,8 @@
           response2 (webapp (->
                               (mock/request :get "/scramble")
                               (mock/query-string incorrect-word)))]
-      (expect (= 422 (:status response1)
+      (expect (= 400 (:status response1)
                      (:status response2))))))
-      ;; This one fails: I get 200 instead...
 
 (deftest post-endpoint-test
   (testing "well-formed POST request, with valid params"
@@ -98,6 +97,5 @@
           response2 (webapp (->
                              (mock/request :post "/scramble")
                              (mock/json-body incorrect-word)))]
-      (expect (= 422 (:status response1)
+      (expect (= 400 (:status response1)
                  (:status response2))))))
-      ;; This one fails: I get 200 instead...

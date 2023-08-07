@@ -38,12 +38,12 @@
     {:title "letters parameter"
      :description "description for letters parameter"
      :json-schema/default "abc"}
-    string?]
+    [:re #"([a-zA-Z]+)|(^\s*$)"]]
    [:word
     {:title "word parameter"
      :description "description for word parameter"
      :json-schema/default "abc"}
-    string?]])
+    [:re #"([a-zA-Z]+)|(^\s*$)"]]])
 
 (defn- parameters-malli-schema-map--get []
   {:query
