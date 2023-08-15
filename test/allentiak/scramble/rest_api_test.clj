@@ -1,10 +1,9 @@
 (ns allentiak.scramble.rest-api-test
   (:require
-    [allentiak.scramble.rest-api :refer [webapp]]
-    [clojure.test :refer [deftest testing]]
-    [expectations.clojure.test :refer [expect]]
-    [ring.mock.request :as mock]
-    [ring.util.codec :refer [form-encode]]))
+   [allentiak.scramble.rest-api :refer [webapp]]
+   [clojure.test :refer [deftest testing]]
+   [expectations.clojure.test :refer [expect]]
+   [ring.mock.request :as mock]))
 
 
 (deftest webapp-smoke-test
@@ -22,80 +21,84 @@
           response (webapp req)]
       (expect (= 404 (:status response))))))
 
-(deftest get-endpoint-test
-  (testing "well-formed GET request, with valid params"
-    (let [response (webapp (->
-                            (mock/request :get "/scramble")
-                            (mock/query-string {:letters "abc" :word "abc"})))]
-      (expect (= 200 (:status response)))))
-  (testing "well-formed GET request, parameterless (yet valid)"
-    (let [response (webapp (->
-                            (mock/request :get "/scramble")
-                            (mock/query-string {:letters "" :word ""})))]
-      (expect (= 200 (:status response)))))
-  (testing "malformed GET request, without params"
-    (let [response (webapp (->
-                            (mock/request :get "/scramble")
-                            (mock/query-string {})))]
-      (expect (= 400 (:status response)))))
-  (testing "malformed GET request, with only one param"
-    (let [params-map1 {:letters ""}
-          params-map2 {:word ""}
-          response1 (webapp (->
-                              (mock/request :get "/scramble")
-                              (mock/query-string params-map1)))
-          response2 (webapp (->
-                              (mock/request :get "/scramble")
-                              (mock/query-string params-map2)))]
-      (expect (= 400 (:status response1)
-                     (:status response2)))))
-  (testing "well-formed, semantically incorrect GET request"
-    (let [incorrect-letters {:letters "22" :word "abc"}
-          incorrect-word {:letters "abc" :word "222"}
-          response1 (webapp (->
-                              (mock/request :get "/scramble")
-                              (mock/query-string incorrect-letters)))
-          response2 (webapp (->
-                              (mock/request :get "/scramble")
-                              (mock/query-string incorrect-word)))]
-      (expect (= 400 (:status response1)
-                     (:status response2))))))
+(deftest well-formed-request-test
+  (testing "well-formed request (with valid params)"
+    (let [get-request (mock/request :get "/scramble")
+          post-request (mock/request :post "/scramble")
+          get-response (webapp (->
+                                 get-request
+                                 (mock/query-string {:letters "abc" :word "abc"})))
+          post-response (webapp (->
+                                 post-request
+                                 (mock/json-body {:letters "abc" :word "abc"})))]
+      (expect (= 200 (:status get-response)))
+      (expect (= 200 (:status post-response)))))
 
-(deftest post-endpoint-test
-  (testing "well-formed POST request, with valid params"
-    (let [response (webapp (->
-                            (mock/request :post "/scramble")
-                            (mock/json-body {:letters "abc" :word "abc"})))]
-      (expect (= 200 (:status response)))))
-  (testing "well-formed POST request, parameterless (yet valid)"
-    (let [response (webapp (->
-                            (mock/request :post "/scramble")
-                            (mock/json-body {:letters "" :word ""})))]
-      (expect (= 200 (:status response)))))
-  (testing "malformed POST request, without params"
-    (let [response (webapp (->
-                            (mock/request :post "/scramble")
-                            (mock/json-body {})))]
-      (expect (= 400 (:status response)))))
-  (testing "malformed POST request, with only one param"
-    (let [params-map1 {:letters ""}
-          params-map2 {:word ""}
-          response1 (webapp (->
-                             (mock/request :post "/scramble")
-                             (mock/json-body params-map1)))
-          response2 (webapp (->
-                             (mock/request :post "/scramble")
-                             (mock/json-body params-map2)))]
-      (expect (= 400 (:status response1)
-                 (:status response2)))))
-  (testing "well-formed, semantically incorrect POST request"
+  (testing "well-formed request (parameterless, yet valid)"
+    (let [get-request (mock/request :get "/scramble")
+          post-request (mock/request :post "/scramble")
+          get-response (webapp (->
+                                 get-request
+                                 (mock/query-string {:letters "" :word ""})))
+          post-response (webapp (->
+                                  post-request
+                                  (mock/json-body {:letters "" :word ""})))]
+      (expect (= 200 (:status get-response))
+              (= 200 (:status post-response))))))
+
+(deftest malformed-or-semantically-incorrect-request
+  (testing "malformed request (without params)"
+    (let [get-request (mock/request :get "/scramble")
+          post-request (mock/request :post "/scramble")
+          get-response (webapp (->
+                                get-request
+                                (mock/query-string {})))
+          post-response (webapp (->
+                                 post-request
+                                 (mock/json-body {})))]
+      (expect (= 400 (:status get-response))
+              (= 400 (:status post-response)))))
+
+  (testing "malformed request (with only one param)"
+    (let [only-letters-param {:letters ""}
+          only-word-param {:word ""}
+          get-request (mock/request :get "/scramble")
+          post-request (mock/request :post "/scramble")
+          get-response1 (webapp (->
+                                 get-request
+                                 (mock/query-string only-letters-param)))
+          post-response1 (webapp (->
+                                  post-request
+                                  (mock/json-body only-letters-param)))
+          get-response2 (webapp (->
+                                 get-request
+                                 (mock/query-string only-word-param)))
+          post-response2 (webapp (->
+                                  post-request
+                                  (mock/json-body only-word-param)))]
+      (expect (= 400 (:status get-response1)
+                     (:status post-response1)))
+      (expect (= 400 (:status get-response2)
+                     (:status post-response2)))))
+
+  (testing "semantically incorrect request (yet well-formed)"
     (let [incorrect-letters {:letters "22" :word "abc"}
           incorrect-word {:letters "abc" :word "222"}
-          response1 (webapp (->
-                             (mock/request :post "/scramble")
-                             (mock/json-body incorrect-letters)))
-          response2 (webapp (->
-                             (mock/request :post "/scramble")
-                             (mock/json-body incorrect-word)))]
-      (expect (= 400 (:status response1)
-                 (:status response2))))))
+          get-request (mock/request :get "/scramble")
+          post-request (mock/request :post "/scramble")
+          get-response1 (webapp (->
+                                 get-request
+                                 (mock/query-string incorrect-letters)))
+          post-response1 (webapp (->
+                                  post-request
+                                  (mock/json-body incorrect-letters)))
+          get-response2 (webapp (->
+                                 get-request
+                                 (mock/query-string incorrect-word)))
+          post-response2 (webapp (->
+                                  post-request
+                                  (mock/json-body incorrect-word)))]
+      (expect (= 400 (:status get-response1)
+                     (:status get-response2)))
+      (expect (= 400 (:status post-response1)
+                     (:status post-response2))))))
