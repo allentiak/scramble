@@ -121,13 +121,10 @@
        (examples-response-200-json-content-map)}}}]])
 
 
-(def webapp
-  (reitit-ring/ring-handler
-    (reitit-ring/router
-      (routes)
-      {:exception pretty/exception
-       :data {:coercion (malli-coercion/create
-                         {;; set of keys to include in error messages
+(defn- router-config-map []
+  {:exception pretty/exception
+     :data {:coercion (malli-coercion/create
+                       {;; set of keys to include in error messages
                           :error-keys #{#_:type :coercion :in :schema :value :errors :humanized #_:transformed}
                           ;; schema identity function (default: close all map schemas)
                           :compile mu/closed-schema
@@ -137,27 +134,32 @@
                           :default-values true
                           ;; malli options
                           :options nil})
-              :muuntaja m/instance
-              :middleware [;; swagger & openapi
-                           swagger/swagger-feature
-                           openapi/openapi-feature
-                           ;; query-params & form-params
-                           parameters/parameters-middleware
-                           ;; content-negotiation
-                           muuntaja/format-negotiate-middleware
-                           ;; encoding response body
-                           muuntaja/format-response-middleware
-                           ;; exception handling
-                           exception/exception-middleware
-                           ;; decoding request body
-                           muuntaja/format-request-middleware
-                           ;; coercing response body
-                           coercion/coerce-response-middleware
-                           ;; coercing request parameters
-                           coercion/coerce-request-middleware
-                           ;; multipart
-                           multipart/multipart-middleware]}})
+            :muuntaja m/instance
+            :middleware [;; swagger & openapi
+                         swagger/swagger-feature
+                         openapi/openapi-feature
+                         ;; query-params & form-params
+                         parameters/parameters-middleware
+                         ;; content-negotiation
+                         muuntaja/format-negotiate-middleware
+                         ;; encoding response body
+                         muuntaja/format-response-middleware
+                         ;; exception handling
+                         exception/exception-middleware
+                         ;; decoding request body
+                         muuntaja/format-request-middleware
+                         ;; coercing response body
+                         coercion/coerce-response-middleware
+                         ;; coercing request parameters
+                         coercion/coerce-request-middleware
+                         ;; multipart
+                         multipart/multipart-middleware]}})
 
+(def webapp
+  (reitit-ring/ring-handler
+    (reitit-ring/router
+      (routes)
+      (router-config-map))
     (reitit-ring/routes
       (swagger-ui/create-swagger-ui-handler
         {:path "/"
