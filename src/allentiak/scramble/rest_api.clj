@@ -1,20 +1,20 @@
 (ns allentiak.scramble.rest-api
   (:require
-    [allentiak.scramble.backend :as backend]
-    [malli.util :as mu]
-    [muuntaja.core :as m]
-    [reitit.coercion.malli :as malli-coercion]
-    [reitit.dev.pretty :as pretty]
-    [reitit.openapi :as openapi]
-    [reitit.swagger :as swagger]
-    [reitit.swagger-ui :as swagger-ui]
-    [reitit.ring :as reitit-ring]
-    [reitit.ring.coercion :as coercion]
-    [reitit.ring.middleware.exception :as exception]
-    [reitit.ring.middleware.multipart :as multipart]
-    [reitit.ring.middleware.muuntaja :as muuntaja]
-    [reitit.ring.middleware.parameters :as parameters]
-    [ring.adapter.jetty :as jetty]))
+   [allentiak.scramble.backend :as backend]
+   [malli.util :as mu]
+   [muuntaja.core :as m]
+   [reitit.coercion.malli :as malli-coercion]
+   [reitit.dev.pretty :as pretty]
+   [reitit.openapi :as openapi]
+   [reitit.ring :as reitit-ring]
+   [reitit.ring.coercion :as coercion]
+   [reitit.ring.middleware.exception :as exception]
+   [reitit.ring.middleware.multipart :as multipart]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [reitit.ring.middleware.parameters :as parameters]
+   [reitit.swagger :as swagger]
+   [reitit.swagger-ui :as swagger-ui]
+   [ring.adapter.jetty :as jetty]))
 
 
 (defn scramble-handler [letters word]
@@ -170,9 +170,6 @@
                   :operationsSorter "alpha"}})
       (reitit-ring/create-default-handler))))
 
-(defn start []
-  (jetty/run-jetty #'webapp {:port 3000, :join? false})
-  (println "HTTP Server running on port 3000..."))
-
-(comment
-  (start))
+(defn -main []
+  (jetty/run-jetty webapp {:port 3000, :join? false})
+  (println "Production HTTP Server running on port 3000..."))
