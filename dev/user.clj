@@ -7,7 +7,7 @@
   (atom nil))
 
 (defn start-web-server []
-  (if (nil? @server)
+  (if-not @server
     (do
       (reset! server
         (jetty/run-jetty #'rest-api/webapp {:port 3000, :join? false}))
@@ -15,7 +15,7 @@
     (println "Cannot start server: Server already running!")))
 
 (defn stop-web-server []
-  (if-not (nil? @server)
+  (if @server
     (do
       (.stop @server)
       (reset! server nil)
