@@ -69,10 +69,9 @@
   (let [{:keys [options exit-message ok?]} (validate-args args)]
     (if exit-message
       (exit (if ok? 0 1) exit-message)
-      (do
-        (let [scramble? (backend/scramble? (:letters options) (:word options))]
-          (println scramble?)
-          scramble?)))))
+      (let [scramble? (backend/scramble? (:letters options) (:word options))]
+       (println scramble?
+         scramble?)))))
 
 
 (comment
