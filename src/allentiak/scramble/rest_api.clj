@@ -123,52 +123,52 @@
 
 (defn- router-config-map []
   {:exception pretty/exception
-     :data {:coercion (malli-coercion/create
-                       {;; set of keys to include in error messages
-                          :error-keys #{#_:type :coercion :in :schema :value :errors :humanized #_:transformed}
+   :data {:coercion (malli-coercion/create
+                     {;; set of keys to include in error messages
+                      :error-keys #{#_:type :coercion :in :schema :value :errors :humanized #_:transformed}
                           ;; schema identity function (default: close all map schemas)
-                          :compile mu/closed-schema
+                      :compile mu/closed-schema
                           ;; strip-extra-keys (effects only predefined transformers)
-                          :strip-extra-keys true
+                      :strip-extra-keys true
                           ;; add/set default values
-                          :default-values true
+                      :default-values true
                           ;; malli options
-                          :options nil})
-            :muuntaja m/instance
-            :middleware [;; swagger & openapi
-                         swagger/swagger-feature
-                         openapi/openapi-feature
+                      :options nil})
+          :muuntaja m/instance
+          :middleware [;; swagger & openapi
+                       swagger/swagger-feature
+                       openapi/openapi-feature
                          ;; query-params & form-params
-                         parameters/parameters-middleware
+                       parameters/parameters-middleware
                          ;; content-negotiation
-                         muuntaja/format-negotiate-middleware
+                       muuntaja/format-negotiate-middleware
                          ;; encoding response body
-                         muuntaja/format-response-middleware
+                       muuntaja/format-response-middleware
                          ;; exception handling
-                         exception/exception-middleware
+                       exception/exception-middleware
                          ;; decoding request body
-                         muuntaja/format-request-middleware
+                       muuntaja/format-request-middleware
                          ;; coercing response body
-                         coercion/coerce-response-middleware
+                       coercion/coerce-response-middleware
                          ;; coercing request parameters
-                         coercion/coerce-request-middleware
+                       coercion/coerce-request-middleware
                          ;; multipart
-                         multipart/multipart-middleware]}})
+                       multipart/multipart-middleware]}})
 
 (def webapp
   (reitit-ring/ring-handler
-    (reitit-ring/router
-      (routes)
-      (router-config-map))
-    (reitit-ring/routes
-      (swagger-ui/create-swagger-ui-handler
-        {:path "/"
-         :config {:validatorUrl nil
-                  :urls [{:name "swagger", :url "swagger.json"}
-                         {:name "openapi", :url "openapi.json"}]
-                  :urls.primaryName "openapi"
-                  :operationsSorter "alpha"}})
-      (reitit-ring/create-default-handler))))
+   (reitit-ring/router
+    (routes)
+    (router-config-map))
+   (reitit-ring/routes
+    (swagger-ui/create-swagger-ui-handler
+     {:path "/"
+      :config {:validatorUrl nil
+               :urls [{:name "swagger", :url "swagger.json"}
+                      {:name "openapi", :url "openapi.json"}]
+               :urls.primaryName "openapi"
+               :operationsSorter "alpha"}})
+    (reitit-ring/create-default-handler))))
 
 (defn -main []
   (jetty/run-jetty webapp {:port 3000, :join? false})

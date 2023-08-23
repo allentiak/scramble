@@ -1,7 +1,6 @@
 (ns allentiak.scramble.backend
   (:require
-    [clojure.string :as str]))
-
+   [clojure.string :as str]))
 
 (defn- rearrangable?
   "Returns true if a portion of letters can be rearranged to match word, otherwise
@@ -16,7 +15,6 @@
 
 (comment
   (rearrangable? "ab" "b"))
-
 
 (defn scramble?
   "Returns true if a portion of letters can be rearranged to match word, otherwise
