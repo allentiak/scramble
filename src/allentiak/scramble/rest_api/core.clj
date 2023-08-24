@@ -1,7 +1,7 @@
-(ns allentiak.scramble.rest-api
+(ns allentiak.scramble.rest-api.core
   (:gen-class)
   (:require
-   [allentiak.scramble.rest-api.handlers :as handlers]
+   [allentiak.scramble.rest-api.routes :as routes]
    [malli.util :as mu]
    [muuntaja.core :as m]
    [reitit.coercion.malli :as malli-coercion]
@@ -16,46 +16,6 @@
    [reitit.swagger :as swagger]
    [reitit.swagger-ui :as swagger-ui]
    [ring.adapter.jetty :as jetty]))
-
-(def routes
-  [["/openapi.json"
-    {:get {:no-doc  true
-           :openapi {:info {:title "my-api"
-                            :description "openapi3 docs with [malli](https://github.com/metosin/malli) and reitit-ring"
-                            :version "0.0.1"}}
-           :handler (openapi/create-openapi-handler)}}]
-   ["/swagger.json"
-    {:get {:no-doc  true
-           :swagger {:info {:title "my-api"
-                            :description "swagger docs with [malli](https://github.com/metosin/malli) and reitit-ring"
-                            :version "0.0.1"}}
-           :handler (swagger/create-swagger-handler)}}]
-   ["/scramble"
-    {:tags ["scramble"]
-     :get
-     {:summary "scramble with query parameters"
-      :parameters handlers/scramble-parameters--get
-      :responses handlers/scramble-response--malli-schema
-      :handler handlers/scramble-get-handler
-      :openapi
-      {:requestQuery
-       {:content
-        {"application/json"
-         handlers/scramble-examples--request--json-content-map}}
-       :responses
-       handlers/scramble-examples--response-200--json-content-map}}
-     :post
-     {:summary "scramble with body parameters"
-      :parameters handlers/scramble-parameters--post
-      :responses handlers/scramble-response--malli-schema
-      :handler handlers/scramble-post-handler
-      :openapi
-      {:requestBody
-       {:content
-        {"application/json"
-         handlers/scramble-examples--request--json-content-map}}
-       :responses
-       handlers/scramble-examples--response-200--json-content-map}}}]])
 
 (def ^:private router-config-map
   {:exception pretty/exception
@@ -91,10 +51,25 @@
                          ;; multipart
                        multipart/multipart-middleware]}})
 
+(def api-routes
+  [["/openapi.json"
+    {:get {:no-doc  true
+           :openapi {:info {:title "my-api"
+                            :description "openapi3 docs with [malli](https://github.com/metosin/malli) and reitit-ring"
+                            :version "0.0.1"}}
+           :handler (openapi/create-openapi-handler)}}]
+   ["/swagger.json"
+    {:get {:no-doc  true
+           :swagger {:info {:title "my-api"
+                            :description "swagger docs with [malli](https://github.com/metosin/malli) and reitit-ring"
+                            :version "0.0.1"}}
+           :handler (swagger/create-swagger-handler)}}]
+   routes/scramble-route])
+
 (def webapp
   (reitit-ring/ring-handler
    (reitit-ring/router
-    routes
+    api-routes
     router-config-map)
    (reitit-ring/routes
     (swagger-ui/create-swagger-ui-handler

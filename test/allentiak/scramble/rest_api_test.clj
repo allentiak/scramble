@@ -1,6 +1,6 @@
 (ns allentiak.scramble.rest-api-test
   (:require
-   [allentiak.scramble.rest-api :refer [webapp]]
+   [allentiak.scramble.rest-api.core :refer [webapp]]
    [clojure.test :refer [deftest testing]]
    [expectations.clojure.test :refer [expect]]
    [ring.mock.request :as mock]))
