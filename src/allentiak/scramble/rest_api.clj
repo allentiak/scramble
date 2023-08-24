@@ -30,7 +30,7 @@
   [{{{:keys [letters word]} :body} :parameters}]
   (scramble-handler letters word))
 
-(defn- parameters-malli-schema []
+(def ^:private parameters-malli-schema
   [:map
    [:letters
     {:title "letters parameter"
@@ -43,15 +43,15 @@
      :json-schema/default "abc"}
     [:re #"([a-zA-Z]+)|(^\s*$)"]]])
 
-(defn- parameters-malli-schema-map--get []
+(def ^:private parameters-malli-schema-map--get
   {:query
-   (parameters-malli-schema)})
+   parameters-malli-schema})
 
-(defn- parameters-malli-schema-map--post []
+(def ^:private parameters-malli-schema-map--post
   {:body
-   (parameters-malli-schema)})
+   parameters-malli-schema})
 
-(defn- examples-request-json-content-map []
+(def ^:private examples-request-json-content-map
   {:examples
    {"scramble?-abc-a"
     {:summary "abc-a"
@@ -62,7 +62,7 @@
      :value {:letters "a"
              :word "abc"}}}})
 
-(defn- examples-response-200-json-content-map []
+(def ^:private examples-response-200-json-content-map
   {200
    {:content
     {"application/json"
@@ -74,11 +74,11 @@
        {:summary "false"
         :value {:scramble? false}}}}}}})
 
-(defn- response-malli-schema-map []
+(def ^:private response-malli-schema-map
   {200
    {:body [:map [:scramble? boolean?]]}})
 
-(defn routes []
+(def routes
   [["/openapi.json"
     {:get {:no-doc  true
            :openapi {:info {:title "my-api"
@@ -95,30 +95,30 @@
     {:tags ["scramble"]
      :get
      {:summary "scramble with query parameters"
-      :parameters (parameters-malli-schema-map--get)
-      :responses (response-malli-schema-map)
+      :parameters parameters-malli-schema-map--get
+      :responses response-malli-schema-map
       :handler scramble-get-handler
       :openapi
       {:requestQuery
        {:content
         {"application/json"
-         (examples-request-json-content-map)}}
+         examples-request-json-content-map}}
        :responses
-       (examples-response-200-json-content-map)}}
+       examples-response-200-json-content-map}}
      :post
      {:summary "scramble with body parameters"
-      :parameters (parameters-malli-schema-map--post)
-      :responses (response-malli-schema-map)
+      :parameters parameters-malli-schema-map--post
+      :responses response-malli-schema-map
       :handler scramble-post-handler
       :openapi
       {:requestBody
        {:content
         {"application/json"
-         (examples-request-json-content-map)}}
+         examples-request-json-content-map}}
        :responses
-       (examples-response-200-json-content-map)}}}]])
+       examples-response-200-json-content-map}}}]])
 
-(defn- router-config-map []
+(def ^:private router-config-map
   {:exception pretty/exception
    :data {:coercion (malli-coercion/create
                      {;; set of keys to include in error messages
@@ -155,8 +155,8 @@
 (def webapp
   (reitit-ring/ring-handler
    (reitit-ring/router
-    (routes)
-    (router-config-map))
+    routes
+    router-config-map)
    (reitit-ring/routes
     (swagger-ui/create-swagger-ui-handler
      {:path "/"
