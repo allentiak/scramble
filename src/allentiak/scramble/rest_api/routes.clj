@@ -1,5 +1,6 @@
 (ns allentiak.scramble.rest-api.routes
   (:require
+   [allentiak.scramble.rest-api.examples :as examples]
    [allentiak.scramble.rest-api.handlers :as handlers]
    [allentiak.scramble.rest-api.specs :as specs]))
 
@@ -15,9 +16,9 @@
      {:requestQuery
       {:content
        {"application/json"
-        handlers/scramble-examples--request--json-content-map}}
+        examples/request}}
       :responses
-      handlers/scramble-examples--response-200--json-content-map}}
+      examples/response-200}}
     :post
     {:summary "scramble with body parameters"
      :parameters specs/scramble-parameters--post
@@ -27,6 +28,6 @@
      {:requestBody
       {:content
        {"application/json"
-        handlers/scramble-examples--request--json-content-map}}
+        examples/request}}
       :responses
-      handlers/scramble-examples--response-200--json-content-map}}}])
+      examples/response-200}}}])
