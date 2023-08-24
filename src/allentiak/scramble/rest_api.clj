@@ -1,7 +1,7 @@
 (ns allentiak.scramble.rest-api
   (:gen-class)
   (:require
-   [allentiak.scramble.backend :as backend]
+   [allentiak.scramble.rest-api.handlers :as handlers]
    [malli.util :as mu]
    [muuntaja.core :as m]
    [reitit.coercion.malli :as malli-coercion]
@@ -16,20 +16,6 @@
    [reitit.swagger :as swagger]
    [reitit.swagger-ui :as swagger-ui]
    [ring.adapter.jetty :as jetty]))
-
-(defn scramble-handler [letters word]
-  {:status 200
-   :body
-   {:scramble?
-    (backend/scramble? letters word)}})
-
-(defn scramble-get-handler
-  [{{{:keys [letters word]} :query} :parameters}]
-  (scramble-handler letters word))
-
-(defn scramble-post-handler
-  [{{{:keys [letters word]} :body} :parameters}]
-  (scramble-handler letters word))
 
 (def ^:private parameters-malli-schema
   [:map
@@ -98,7 +84,7 @@
      {:summary "scramble with query parameters"
       :parameters parameters-malli-schema-map--get
       :responses response-malli-schema-map
-      :handler scramble-get-handler
+      :handler handlers/scramble-get-handler
       :openapi
       {:requestQuery
        {:content
@@ -110,7 +96,7 @@
      {:summary "scramble with body parameters"
       :parameters parameters-malli-schema-map--post
       :responses response-malli-schema-map
-      :handler scramble-post-handler
+      :handler handlers/scramble-post-handler
       :openapi
       {:requestBody
        {:content
