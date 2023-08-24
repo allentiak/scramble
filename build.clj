@@ -6,7 +6,7 @@
 
 (def lib 'net.clojars.allentiak/scramble)
 (def version "0.1.0-SNAPSHOT")
-(def main 'allentiak.scramble.cli)
+(def main 'allentiak.scramble.rest-api)
 (def class-dir "target/classes")
 
 

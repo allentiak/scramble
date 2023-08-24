@@ -1,6 +1,5 @@
 {:paths ["src" "resources"]
  :deps  {org.clojure/clojure   {:mvn/version "1.11.1"}
-         org.clojure/tools.cli {:mvn/version "1.0.214"}
          metosin/reitit-core {:mvn/version "0.7.0-alpha5"}
          metosin/reitit-dev {:mvn/version "0.7.0-alpha5"}
          fi.metosin/reitit-openapi {:mvn/version "0.7.0-alpha5"}
@@ -12,7 +11,7 @@
          metosin/ring-swagger-ui {:mvn/version "5.0.0-alpha.0"}
          ring/ring-jetty-adapter {:mvn/version "1.10.0"}}
  :aliases
- {:run-m {:main-opts ["-m" "allentiak.scramble.cli"]}
+ {:run-m {:main-opts ["-m" "allentiak.scramble.rest-api"]}
   :build {:deps       {io.github.clojure/tools.build {:git/tag "v0.9.2" :git/sha "fe6b140"}}
           :ns-default build}
 
