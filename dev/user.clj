@@ -1,7 +1,7 @@
 (ns user
   (:require
    [ring.adapter.jetty :as jetty]
-   [allentiak.scramble.rest-api :as rest-api]))
+   [allentiak.scramble.rest-api.core :as rest-api]))
 
 (defonce server
   (atom nil))
