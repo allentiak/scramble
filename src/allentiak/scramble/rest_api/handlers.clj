@@ -59,3 +59,7 @@
        "false"
        {:summary "false"
         :value {:scramble? false}}}}}}})
+
+(def scramble-response--malli-schema
+  {200
+   {:body [:map [:scramble? boolean?]]}})

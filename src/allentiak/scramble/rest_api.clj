@@ -17,10 +17,6 @@
    [reitit.swagger-ui :as swagger-ui]
    [ring.adapter.jetty :as jetty]))
 
-(def ^:private response-malli-schema-map
-  {200
-   {:body [:map [:scramble? boolean?]]}})
-
 (def routes
   [["/openapi.json"
     {:get {:no-doc  true
@@ -39,7 +35,7 @@
      :get
      {:summary "scramble with query parameters"
       :parameters handlers/scramble-parameters--get
-      :responses response-malli-schema-map
+      :responses handlers/scramble-response--malli-schema
       :handler handlers/scramble-get-handler
       :openapi
       {:requestQuery
@@ -51,7 +47,7 @@
      :post
      {:summary "scramble with body parameters"
       :parameters handlers/scramble-parameters--post
-      :responses response-malli-schema-map
+      :responses handlers/scramble-response--malli-schema
       :handler handlers/scramble-post-handler
       :openapi
       {:requestBody
