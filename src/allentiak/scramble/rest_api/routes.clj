@@ -2,7 +2,7 @@
   (:require
    [allentiak.scramble.rest-api.handlers :as handlers]))
 
-(def scramble-route
+(def scramble-api-route
   ["/scramble"
    {:tags ["scramble"]
     :get

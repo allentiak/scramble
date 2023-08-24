@@ -51,20 +51,23 @@
                          ;; multipart
                        multipart/multipart-middleware]}})
 
-(def api-routes
-  [["/openapi.json"
-    {:get {:no-doc  true
-           :openapi {:info {:title "my-api"
-                            :description "openapi3 docs with [malli](https://github.com/metosin/malli) and reitit-ring"
-                            :version "0.0.1"}}
-           :handler (openapi/create-openapi-handler)}}]
+(def api-documentation-routes
+  [["/openapi.json"]
+   {:get {:no-doc  true
+          :openapi {:info {:title "my-api"
+                           :description "openapi3 docs with [malli](https://github.com/metosin/malli) and reitit-ring"
+                           :version "0.0.1"}}
+          :handler (openapi/create-openapi-handler)}}
    ["/swagger.json"
     {:get {:no-doc  true
            :swagger {:info {:title "my-api"
                             :description "swagger docs with [malli](https://github.com/metosin/malli) and reitit-ring"
                             :version "0.0.1"}}
-           :handler (swagger/create-swagger-handler)}}]
-   routes/scramble-route])
+           :handler (swagger/create-swagger-handler)}}]])
+
+(def api-routes
+  [api-documentation-routes
+   routes/scramble-api-route])
 
 (def webapp
   (reitit-ring/ring-handler
