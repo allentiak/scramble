@@ -1,4 +1,5 @@
 (ns allentiak.scramble.rest-api
+  (:gen-class)
   (:require
    [allentiak.scramble.backend :as backend]
    [malli.util :as mu]
