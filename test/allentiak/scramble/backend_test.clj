@@ -1,9 +1,8 @@
 (ns allentiak.scramble.backend-test
   (:require
-    [allentiak.scramble.backend :refer [scramble?]]
-    [clojure.test :refer [deftest testing]]
-    [expectations.clojure.test :refer [expect]]))
-
+   [allentiak.scramble.backend :refer [scramble?]]
+   [clojure.test :refer [deftest testing]]
+   [expectations.clojure.test :refer [expect]]))
 
 (deftest scramble-test
 

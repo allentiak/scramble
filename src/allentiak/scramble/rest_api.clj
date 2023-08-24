@@ -16,7 +16,6 @@
    [reitit.swagger-ui :as swagger-ui]
    [ring.adapter.jetty :as jetty]))
 
-
 (defn scramble-handler [letters word]
   {:status 200
    :body
@@ -30,7 +29,6 @@
 (defn scramble-post-handler
   [{{{:keys [letters word]} :body} :parameters}]
   (scramble-handler letters word))
-
 
 (defn- parameters-malli-schema []
   [:map
@@ -119,7 +117,6 @@
          (examples-request-json-content-map)}}
        :responses
        (examples-response-200-json-content-map)}}}]])
-
 
 (defn- router-config-map []
   {:exception pretty/exception

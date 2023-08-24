@@ -1,10 +1,9 @@
 (ns allentiak.scramble.cli
   (:gen-class)
   (:require
-    [allentiak.scramble.backend :as backend]
-    [clojure.string :as str]
-    [clojure.tools.cli :refer [parse-opts]]))
-
+   [allentiak.scramble.backend :as backend]
+   [clojure.string :as str]
+   [clojure.tools.cli :refer [parse-opts]]))
 
 (def cli-options
   [["-l" "--letters LETTERS" "Letters"
@@ -12,7 +11,6 @@
    ["-w" "--word WORD" "Word"
     :validate [#(not (str/blank? %)) "Must not be empty"]]
    ["-h" "--help"]])
-
 
 (defn usage
   [options-summary]
@@ -26,19 +24,16 @@
         "Please refer to the manual page for more information."]
        (str/join \newline)))
 
-
 (defn error-msg
   [errors]
   (str "The following errors occurred while parsing your command:\n\n"
        (str/join \newline errors)))
-
 
 (comment
   (let [options {:letters "arb" :word "ab"}]
     (count options)
     (keys options)
     (= #{:letters :word} (set (keys options)))))
-
 
 (defn validate-args
   "Validate command line arguments. Either return a map indicating the program
@@ -56,12 +51,10 @@
       :else                 ; everything went fine => return the options' values
       {:options options})))
 
-
 (defn exit
   [status msg]
   (println msg)
   (System/exit status))
-
 
 (defn -main
   "Callable entry point of the application."
@@ -70,9 +63,8 @@
     (if exit-message
       (exit (if ok? 0 1) exit-message)
       (let [scramble? (backend/scramble? (:letters options) (:word options))]
-       (println scramble?
-         scramble?)))))
-
+        (println scramble?
+                 scramble?)))))
 
 (comment
   (-main "-l ab -w ab"))

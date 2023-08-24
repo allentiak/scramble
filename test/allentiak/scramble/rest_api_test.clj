@@ -5,7 +5,6 @@
    [expectations.clojure.test :refer [expect]]
    [ring.mock.request :as mock]))
 
-
 (deftest webapp-smoke-test
   (testing "redirects to 'index.html' by default"
     (let [req (mock/request :get "/")
@@ -26,8 +25,8 @@
     (let [get-request (mock/request :get "/scramble")
           post-request (mock/request :post "/scramble")
           get-response (webapp (->
-                                 get-request
-                                 (mock/query-string {:letters "abc" :word "abc"})))
+                                get-request
+                                (mock/query-string {:letters "abc" :word "abc"})))
           post-response (webapp (->
                                  post-request
                                  (mock/json-body {:letters "abc" :word "abc"})))]
@@ -38,11 +37,11 @@
     (let [get-request (mock/request :get "/scramble")
           post-request (mock/request :post "/scramble")
           get-response (webapp (->
-                                 get-request
-                                 (mock/query-string {:letters "" :word ""})))
+                                get-request
+                                (mock/query-string {:letters "" :word ""})))
           post-response (webapp (->
-                                  post-request
-                                  (mock/json-body {:letters "" :word ""})))]
+                                 post-request
+                                 (mock/json-body {:letters "" :word ""})))]
       (expect (= 200 (:status get-response))
               (= 200 (:status post-response))))))
 
@@ -77,9 +76,9 @@
                                   post-request
                                   (mock/json-body only-word-param)))]
       (expect (= 400 (:status get-response1)
-                     (:status post-response1)))
+                 (:status post-response1)))
       (expect (= 400 (:status get-response2)
-                     (:status post-response2)))))
+                 (:status post-response2)))))
 
   (testing "semantically incorrect request (yet well-formed)"
     (let [incorrect-letters {:letters "22" :word "abc"}
@@ -99,6 +98,6 @@
                                   post-request
                                   (mock/json-body incorrect-word)))]
       (expect (= 400 (:status get-response1)
-                     (:status get-response2)))
+                 (:status get-response2)))
       (expect (= 400 (:status post-response1)
-                     (:status post-response2))))))
+                 (:status post-response2))))))
