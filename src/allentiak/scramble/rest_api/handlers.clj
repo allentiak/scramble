@@ -36,3 +36,26 @@
 (def scramble-parameters--post
   {:body
    scramble-parameters--malli-schema})
+
+(def scramble-examples--request--json-content-map
+  {:examples
+   {"scramble?-abc-a"
+    {:summary "abc-a"
+     :value {:letters "abc"
+             :word "a"}}
+    "scramble?-a-abc"
+    {:summary "a-abc"
+     :value {:letters "a"
+             :word "abc"}}}})
+
+(def scramble-examples--response-200--json-content-map
+  {200
+   {:content
+    {"application/json"
+     {:examples
+      {"true"
+       {:summary "true"
+        :value {:scramble? true}}
+       "false"
+       {:summary "false"
+        :value {:scramble? false}}}}}}})

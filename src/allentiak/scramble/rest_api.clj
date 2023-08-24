@@ -17,29 +17,6 @@
    [reitit.swagger-ui :as swagger-ui]
    [ring.adapter.jetty :as jetty]))
 
-(def ^:private examples-request-json-content-map
-  {:examples
-   {"scramble?-abc-a"
-    {:summary "abc-a"
-     :value {:letters "abc"
-             :word "a"}}
-    "scramble?-a-abc"
-    {:summary "a-abc"
-     :value {:letters "a"
-             :word "abc"}}}})
-
-(def ^:private examples-response-200-json-content-map
-  {200
-   {:content
-    {"application/json"
-     {:examples
-      {"true"
-       {:summary "true"
-        :value {:scramble? true}}
-       "false"
-       {:summary "false"
-        :value {:scramble? false}}}}}}})
-
 (def ^:private response-malli-schema-map
   {200
    {:body [:map [:scramble? boolean?]]}})
@@ -68,9 +45,9 @@
       {:requestQuery
        {:content
         {"application/json"
-         examples-request-json-content-map}}
+         handlers/scramble-examples--request--json-content-map}}
        :responses
-       examples-response-200-json-content-map}}
+       handlers/scramble-examples--response-200--json-content-map}}
      :post
      {:summary "scramble with body parameters"
       :parameters handlers/scramble-parameters--post
@@ -80,9 +57,9 @@
       {:requestBody
        {:content
         {"application/json"
-         examples-request-json-content-map}}
+         handlers/scramble-examples--request--json-content-map}}
        :responses
-       examples-response-200-json-content-map}}}]])
+       handlers/scramble-examples--response-200--json-content-map}}}]])
 
 (def ^:private router-config-map
   {:exception pretty/exception
