@@ -16,27 +16,6 @@
   [{{{:keys [letters word]} :body} :parameters}]
   (scramble-handler letters word))
 
-(def ^:private scramble-parameters--malli-schema
-  [:map
-   [:letters
-    {:title "letters parameter"
-     :description "description for letters parameter"
-     :json-schema/default "abc"}
-    [:re #"([a-zA-Z]+)|(^\s*$)"]]
-   [:word
-    {:title "word parameter"
-     :description "description for word parameter"
-     :json-schema/default "abc"}
-    [:re #"([a-zA-Z]+)|(^\s*$)"]]])
-
-(def scramble-parameters--get
-  {:query
-   scramble-parameters--malli-schema})
-
-(def scramble-parameters--post
-  {:body
-   scramble-parameters--malli-schema})
-
 (def scramble-examples--request--json-content-map
   {:examples
    {"scramble?-abc-a"
@@ -59,7 +38,3 @@
        "false"
        {:summary "false"
         :value {:scramble? false}}}}}}})
-
-(def scramble-response--malli-schema
-  {200
-   {:body [:map [:scramble? boolean?]]}})
