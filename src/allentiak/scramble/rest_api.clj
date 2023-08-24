@@ -17,27 +17,6 @@
    [reitit.swagger-ui :as swagger-ui]
    [ring.adapter.jetty :as jetty]))
 
-(def ^:private parameters-malli-schema
-  [:map
-   [:letters
-    {:title "letters parameter"
-     :description "description for letters parameter"
-     :json-schema/default "abc"}
-    [:re #"([a-zA-Z]+)|(^\s*$)"]]
-   [:word
-    {:title "word parameter"
-     :description "description for word parameter"
-     :json-schema/default "abc"}
-    [:re #"([a-zA-Z]+)|(^\s*$)"]]])
-
-(def ^:private parameters-malli-schema-map--get
-  {:query
-   parameters-malli-schema})
-
-(def ^:private parameters-malli-schema-map--post
-  {:body
-   parameters-malli-schema})
-
 (def ^:private examples-request-json-content-map
   {:examples
    {"scramble?-abc-a"
@@ -82,7 +61,7 @@
     {:tags ["scramble"]
      :get
      {:summary "scramble with query parameters"
-      :parameters parameters-malli-schema-map--get
+      :parameters handlers/scramble-parameters--get
       :responses response-malli-schema-map
       :handler handlers/scramble-get-handler
       :openapi
@@ -94,7 +73,7 @@
        examples-response-200-json-content-map}}
      :post
      {:summary "scramble with body parameters"
-      :parameters parameters-malli-schema-map--post
+      :parameters handlers/scramble-parameters--post
       :responses response-malli-schema-map
       :handler handlers/scramble-post-handler
       :openapi
