@@ -66,7 +66,7 @@
             :urls.primaryName "openapi"
             :operationsSorter "alpha"}})
 
-(def router
+(def prod-router
   (reitit-ring/router
    api-routes
    router-config-map))
@@ -77,11 +77,11 @@
     swagger-ui-map)
    (reitit-ring/create-default-handler)))
 
-(def webapp
+(def prod-webapp
   (reitit-ring/ring-handler
-   router
+   prod-router
    routes))
 
 (defn -main []
-  (jetty/run-jetty webapp {:port 3000, :join? false})
+  (jetty/run-jetty prod-webapp {:port 3000, :join? false})
   (println "Production HTTP Server running on port 3000..."))
