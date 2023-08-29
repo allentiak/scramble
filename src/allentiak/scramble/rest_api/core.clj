@@ -58,20 +58,29 @@
    [routes/api-documentation
     routes/scramble]])
 
+(def swagger-ui-map
+  {:path (str api-root "/")
+   :config {:validatorUrl nil
+            :urls [{:name "swagger", :url "swagger.json"}
+                   {:name "openapi", :url "openapi.json"}]
+            :urls.primaryName "openapi"
+            :operationsSorter "alpha"}})
+
+(def router
+  (reitit-ring/router
+   api-routes
+   router-config-map))
+
+(def routes
+  (reitit-ring/routes
+   (swagger-ui/create-swagger-ui-handler
+    swagger-ui-map)
+   (reitit-ring/create-default-handler)))
+
 (def webapp
   (reitit-ring/ring-handler
-   (reitit-ring/router
-    api-routes
-    router-config-map)
-   (reitit-ring/routes
-    (swagger-ui/create-swagger-ui-handler
-     {:path (str api-root "/")
-      :config {:validatorUrl nil
-               :urls [{:name "swagger", :url "swagger.json"}
-                      {:name "openapi", :url "openapi.json"}]
-               :urls.primaryName "openapi"
-               :operationsSorter "alpha"}})
-    (reitit-ring/create-default-handler))))
+   router
+   routes))
 
 (defn -main []
   (jetty/run-jetty webapp {:port 3000, :join? false})
