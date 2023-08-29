@@ -35,12 +35,12 @@
       examples/response-200}}}])
 
 (defn api-documentation []
-  [["/openapi.json"]
-   {:get {:no-doc  true
-          :openapi {:info {:title "my-api"
-                           :description "openapi3 docs with [malli](https://github.com/metosin/malli) and reitit-ring"
-                           :version "0.0.1"}}
-          :handler (openapi/create-openapi-handler)}}
+  [["/openapi.json"
+    {:get {:no-doc  true
+           :openapi {:info {:title "my-api"
+                            :description "openapi3 docs with [malli](https://github.com/metosin/malli) and reitit-ring"
+                            :version "0.0.1"}}
+           :handler (openapi/create-openapi-handler)}}]
    ["/swagger.json"
     {:get {:no-doc  true
            :swagger {:info {:title "my-api"
