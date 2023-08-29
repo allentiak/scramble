@@ -6,19 +6,20 @@
    [ring.mock.request :as mock]))
 
 (deftest api-docs-smoke-test
-  (testing "redirects to 'index.html' by default"
-    (let [req (mock/request :get (str rest-api/api-root "/"))
-          response (rest-api/webapp req)]
-      (expect (= 302 (:status response)))
-      (expect (= {"Location" (str rest-api/api-root "/index.html")} (:headers response)))))
-  (testing "default page exists"
-    (let [req (mock/request :get (str rest-api/api-root "/index.html"))
-          response (rest-api/webapp req)]
-      (expect (= 200 (:status response)))))
-  (testing "invalid routes are detected"
-    (let [req (mock/request :get (str rest-api/api-root "/whatever"))
-          response (rest-api/webapp req)]
-      (expect (= 404 (:status response))))))
+  (testing "API root"
+    (testing "redirects to 'index.html' by default"
+      (let [req (mock/request :get (str rest-api/api-root "/"))
+            response (rest-api/webapp req)]
+        (expect (= 302 (:status response)))
+        (expect (= {"Location" (str rest-api/api-root "/index.html")} (:headers response)))))
+    (testing "default page exists"
+      (let [req (mock/request :get (str rest-api/api-root "/index.html"))
+            response (rest-api/webapp req)]
+        (expect (= 200 (:status response)))))
+    (testing "invalid routes are detected"
+      (let [req (mock/request :get (str rest-api/api-root "/whatever"))
+            response (rest-api/webapp req)]
+        (expect (= 404 (:status response)))))))
 
 (deftest well-formed-request-test
   (testing "well-formed request (with valid params)"
