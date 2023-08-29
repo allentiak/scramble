@@ -50,7 +50,7 @@
                        coercion/coerce-request-middleware
                          ;; multipart
                        multipart/multipart-middleware]}})
-(def api-root "")
+(def api-root "/api")
 
 (def api-routes
   [api-root
