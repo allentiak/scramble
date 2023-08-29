@@ -50,10 +50,12 @@
                        coercion/coerce-request-middleware
                          ;; multipart
                        multipart/multipart-middleware]}})
+(def api-root "")
 
 (def api-routes
-  [routes/api-documentation
-   routes/scramble])
+  [api-root
+   [routes/api-documentation
+    routes/scramble]])
 
 (def webapp
   (reitit-ring/ring-handler
@@ -62,7 +64,7 @@
     router-config-map)
    (reitit-ring/routes
     (swagger-ui/create-swagger-ui-handler
-     {:path "/"
+     {:path (str api-root "/")
       :config {:validatorUrl nil
                :urls [{:name "swagger", :url "swagger.json"}
                       {:name "openapi", :url "openapi.json"}]
