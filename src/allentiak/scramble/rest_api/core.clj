@@ -53,10 +53,10 @@
 
 (def api-root "/api")
 
-(def api-routes
+(defn api-routes []
   [api-root
-   [routes/api-documentation
-    routes/scramble]])
+   [(routes/api-documentation)
+    (routes/scramble)]])
 
 (def swagger-ui-map
   {:path (str api-root "/")
@@ -68,10 +68,15 @@
 
 (def prod-router
   (reitit-ring/router
-   api-routes
+   (api-routes)
    router-config-map))
 
-(def routes
+(def dev-router
+  #(reitit-ring/router
+    (api-routes)
+    router-config-map))
+
+(defn routes []
   (reitit-ring/routes
    (swagger-ui/create-swagger-ui-handler
     swagger-ui-map)
@@ -80,7 +85,12 @@
 (def prod-webapp
   (reitit-ring/ring-handler
    prod-router
-   routes))
+   (routes)))
+
+(def dev-webapp
+  #(reitit-ring/ring-handler
+    dev-router
+    (routes)))
 
 (defn -main []
   (jetty/run-jetty prod-webapp {:port 3000, :join? false})

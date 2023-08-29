@@ -10,7 +10,7 @@
   (if-not @server
     (do
       (reset! server
-              (jetty/run-jetty #'rest-api/prod-webapp {:port 3000, :join? false}))
+              (jetty/run-jetty #'rest-api/dev-webapp {:port 3000, :join? false}))
       (println "Development HTTP Server running on port 3000..."))
     (println "Cannot start server: Server already running!")))
 
