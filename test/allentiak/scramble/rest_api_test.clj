@@ -5,7 +5,7 @@
    [expectations.clojure.test :refer [expect]]
    [ring.mock.request :as mock]))
 
-(deftest webapp-smoke-test
+(deftest api-docs-smoke-test
   (testing "redirects to 'index.html' by default"
     (let [req (mock/request :get "/")
           response (webapp req)]
