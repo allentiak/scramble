@@ -71,6 +71,16 @@
    (api-routes)
    router-config-map))
 
+(comment
+  prod-router
+
+ ;; How could I get a hold of the content of the router?
+
+;; => #object[reitit.core$lookup_router$reify__2107 0x245321d7 "reitit.core$lookup_router$reify__2107@245321d7"]
+
+  (prn prod-router)
+  (clojure.pprint/pprint prod-router))
+
 (def dev-router
   #(reitit-ring/router
     (api-routes)
