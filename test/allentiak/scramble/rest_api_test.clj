@@ -1,17 +1,18 @@
 (ns allentiak.scramble.rest-api-test
   (:require
    [allentiak.scramble.rest-api.core :as rest-api]
+   [allentiak.scramble.rest-api.static-content :as static-content]
    [clojure.test :refer [deftest testing]]
    [expectations.clojure.test :refer [expect]]
    [ring.mock.request :as mock]))
 
 (deftest homepage
-  (testing "homepage exists"
+  (testing "homepage loads successfully"
     (let [req (mock/request :get (str rest-api/homepage-root "/"))
           response (rest-api/prod-webapp req)]
       (expect (= 200
                  (:status response)))
-      (expect (= "Hi, Static Content!"
+      (expect (= (static-content/homepage)
                  (:body response))))))
 
 (deftest api-docs-smoke-test

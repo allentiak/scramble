@@ -1,6 +1,7 @@
 (ns allentiak.scramble.rest-api.handlers
   (:require
-   [allentiak.scramble.backend :as backend]))
+   [allentiak.scramble.backend :as backend]
+   [allentiak.scramble.rest-api.static-content :as static-content]))
 
 (defn- scramble-handler [letters word]
   {:status 200
@@ -15,3 +16,7 @@
 (defn scramble-post-handler
   [{{{:keys [letters word]} :body} :parameters}]
   (scramble-handler letters word))
+
+(defn homepage-handler []
+  (constantly {:status 200
+               :body (static-content/homepage)}))

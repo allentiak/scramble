@@ -1,6 +1,7 @@
 (ns allentiak.scramble.rest-api.core
   (:gen-class)
   (:require
+   [allentiak.scramble.rest-api.handlers :as handlers]
    [allentiak.scramble.rest-api.routes :as routes]
    [malli.util :as mu]
    [muuntaja.core :as m]
@@ -58,8 +59,7 @@
 (defn api-routes []
   [[(str homepage-root "/")
     {:get
-     {:handler (constantly {:status 200
-                            :body "Hi, Static Content!"})}}]
+     {:handler (handlers/homepage-handler)}}]
    [api-root
     (routes/api-documentation)
     (routes/scramble)]])
