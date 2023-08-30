@@ -5,6 +5,15 @@
    [expectations.clojure.test :refer [expect]]
    [ring.mock.request :as mock]))
 
+(deftest homepage
+  (testing "homepage exists"
+    (let [req (mock/request :get (str rest-api/homepage-root "/"))
+          response (rest-api/prod-webapp req)]
+      (expect (= 200
+                 (:status response)))
+      (expect (= "Hi, Static Content!"
+                 (:body response))))))
+
 (deftest api-docs-smoke-test
   (testing "API root"
     (testing "redirects to 'index.html' by default"

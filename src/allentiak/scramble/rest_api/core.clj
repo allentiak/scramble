@@ -53,9 +53,15 @@
 
 (def api-root "/api")
 
+(def homepage-root "")
+
 (defn api-routes []
-  [api-root
-   [(routes/api-documentation)
+  [[(str homepage-root "/")
+    {:get
+     {:handler (constantly {:status 200
+                            :body "Hi, Static Content!"})}}]
+   [api-root
+    (routes/api-documentation)
     (routes/scramble)]])
 
 (def swagger-ui-map
