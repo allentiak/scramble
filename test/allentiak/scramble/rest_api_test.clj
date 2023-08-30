@@ -6,7 +6,7 @@
    [expectations.clojure.test :refer [expect]]
    [ring.mock.request :as mock]))
 
-(deftest homepage
+(deftest homepage-test
   (testing "homepage loads successfully"
     (let [req (mock/request :get (str rest-api/homepage-root "/"))
           response (rest-api/prod-webapp req)]
