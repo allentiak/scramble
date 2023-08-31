@@ -16,7 +16,7 @@
               ;; No implementation of method: :match-by-path of protocol:
               ;; #'reitit.core/Router found for class:
               ;; allentiak.scramble.rest_api.core$dev_router
-              (jetty/run-jetty #'rest-api/dev-webapp {:port 3000 :join? false}))
+              (jetty/run-jetty #'rest-api/prod-webapp {:port 3000 :join? false}))
       (println "Development server running on port 3000..."))
     (println "Cannot start Development server: Server already running!")))
 
@@ -39,7 +39,7 @@
   (if-not @prod-server
     (do
       (reset! prod-server
-              (jetty/run-jetty #'rest-api/prod-webapp {:port 3333 :join? false}))
+              (jetty/run-jetty rest-api/prod-webapp {:port 3333 :join? false}))
       (println "Production server running on port 3333..."))
     (println "Cannot start Produciton server: Server already running!")))
 
